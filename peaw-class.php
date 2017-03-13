@@ -6,14 +6,14 @@
  * @author      Fernando Cabral
  * @license     GPLv3
  */
-class Post_Elementor_Addon_Widgets{
+class Post_Elementor_Awesome_Widgets{
 	/*
-	 *	A reference of the instance of the <Post_Elementor_Addon_Widgets> class.
+	 *	A reference of the instance of the <Post_Elementor_Awesome_Widgets> class.
 	 */
 	private static $instance;
 
 	/*
-	 *	Returns an instance of the <Post_Elementor_Addon_Widgets> class.
+	 *	Returns an instance of the <Post_Elementor_Awesome_Widgets> class.
 	 */
 	public static function get_instance(){
 		if(self::$instance == null){
@@ -26,7 +26,7 @@ class Post_Elementor_Addon_Widgets{
 	 *	Loads the post-elementor textdomain
 	 */
 	public function peaw_load_textdomain(){
-		load_plugin_textdomain("post-elementor");
+		load_plugin_textdomain("post-card");
 	}
 
 	/*
@@ -44,11 +44,11 @@ class Post_Elementor_Addon_Widgets{
 	 */
 	private function __construct(){
 
-		add_action('ini', array($this,'peaw_load_textdomain'));
+		add_action('init', array($this,'peaw_load_textdomain'));
 
 		add_action('widgets_init',array($this,'peaw_add_widgets'));
 
-		add_action( 'wp_enqueue_scripts',array($this,'peaw_apply_css'));
+		add_action( 'wp_enqueue_scripts',array($this,'peaw_includes'));
 
 	}
 
@@ -56,14 +56,14 @@ class Post_Elementor_Addon_Widgets{
 	 *	Add all the widgets
 	 */
 	public static function peaw_add_widgets(){
-		include_once( PEAW_PATH . 'widgets/single-post-elementor-widget.php');
+		include_once( PEAW_PATH . 'widgets/peaw-single-post.php');
 		register_widget('PEAW_Single_Post');
 	}
 
 	/*
 	 *	Apply styles and Javascript
 	 */
-	public function peaw_apply_css(){
+	public function peaw_includes(){
 		wp_enqueue_style( 'bootstrap-peaw-style', PEAW_URI . 'css/bootstrap.css');
 		wp_enqueue_script('bootstrap-js', PEAW_URI .'js/bootstrap.js' );
 		wp_enqueue_style( 'peaw-single-post-style', PEAW_URI . 'css/single-post-elementor.css');
@@ -74,4 +74,4 @@ class Post_Elementor_Addon_Widgets{
 
 
 }
-add_action('plugins_loaded', array('Post_Elementor_Addon_Widgets', 'get_instance'));
+add_action('plugins_loaded', array('Post_Elementor_Awesome_Widgets', 'get_instance'));

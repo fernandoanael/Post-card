@@ -16,11 +16,11 @@ Fell Free to adapt the widget in you own needs the code is all commented waiting
 
 ## What's missing
 What we are creating and you can help 
-                                    * -> Post Card not by id but by category and the widget would randomize the post; 1
-                                    * -> Fix the 16:9 ratio image problem (if you add a non 16:9 ratio featured image, you can experience                                          some styling mistakes); 2
-                                    * -> Custom Post Card size; 3
-                                    * -> WHATEVER YOU WANT, just code and let us know.;4
+  1. Post Card not by id but by category and the widget would randomize the post; 
+  2. Fix the 16:9 ratio image problem (if you add a non 16:9 ratio featured image, you can experience                                          some styling mistakes); 
+  3. Custom Post Card size; 
+  4. WHATEVER YOU WANT, just code and let us know.; 
 
- ## General Usage
+## General Usage
  Using Elementor Page Builder, simply click and drag the widget to wherever you want it, it is developed to be a 3 columns
  grid layout. Insert the ID and crete a interesting call text.

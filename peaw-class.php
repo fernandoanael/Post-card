@@ -56,8 +56,13 @@ class Post_Elementor_Awesome_Widgets{
 	 *	Add all the widgets
 	 */
 	public static function peaw_add_widgets(){
+		//Single Post by Id
 		include_once( PEAW_PATH . 'widgets/peaw-single-post.php');
 		register_widget('PEAW_Single_Post');
+
+		//Random Post by cat
+		include_once(PEAW_PATH . 'widgets/peaw-random-post.php');
+		register_widget('PEAW_Random_Post_By_Category');
 	}
 
 	/*

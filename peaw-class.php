@@ -50,6 +50,10 @@ class Post_Elementor_Awesome_Widgets{
 
 		add_action( 'wp_enqueue_scripts',array($this,'peaw_includes'));
 
+		add_filter('manage_posts_columns', [$this, 'peaw_add_post_id_to_column']);
+
+		add_action('manage_posts_custom_column', [$this, 'peaw_show_post_id'], 10, 2 );
+
 	}
 
 	/*
@@ -73,7 +77,25 @@ class Post_Elementor_Awesome_Widgets{
 		wp_enqueue_script('bootstrap-js', PEAW_URI .'js/bootstrap.js' );
 		wp_enqueue_style( 'peaw-single-post-style', PEAW_URI . 'css/single-post-elementor.css');
 	}
-	
+
+	/*
+	 *	Add the post id on the All Post column
+	 */
+	public function peaw_add_post_id_to_column($columns){
+		if(!isset($columns['peaw_id'])){
+			$columns['post_id'] = 'ID';
+		}
+		return $columns;
+	}
+
+	/*
+	 *	Show the Post id on the All Post column
+	 */
+	public function peaw_show_post_id($column, $id){
+		if('post_id' == $column){
+			echo $id;
+		}
+	}
 
 
 

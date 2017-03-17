@@ -39,5 +39,4 @@ What we are creating and you can help
 ## FAQ
 #### How can I know the Post id?
 This plugin adds the ID column in your "All Posts" section on the wordpress admin panel.
-=======
->>>>>>> cd629ac20fda0c70ea532224d2132e424d8dfc91
+

@@ -34,7 +34,10 @@ What we are creating and you can help
   2. All you need to do is choose the Category you want. The call text here is the Post excerpt always -> https://tinyurl.com/k8rnubo
   If you insert an invalid Category this will be the result ->https://tinyurl.com/lo5qbbd
   3. That's it!
+<<<<<<< HEAD
   
 ## FAQ
 #### How can I know the Post id?
 This plugin adds the ID column in your "All Posts" section on the wordpress admin panel.
+=======
+>>>>>>> cd629ac20fda0c70ea532224d2132e424d8dfc91

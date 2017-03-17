@@ -10,16 +10,8 @@ The post is selected by the given ID and the text is provided by user as well, i
 It was previously created to be a full Elementor widget but as Elementor isn't a API, it was decided to develop a full wordpress widget
 but, the widget works perfectly with the Elementor Page Builder. 
 
-
 ##Fell free
 Fell Free to adapt the widget in you own needs the code is all commented waiting for any improvment and customization.
-
-## What's missing
-What we are creating and you can help 
-  1. Post Card not by id but by category and the widget would randomize the post; 
-  2. Fix the 16:9 ratio image problem (if you add a non 16:9 ratio featured image, you can experience                                          some styling mistakes); 
-  3. Custom Post Card size; 
-  4. WHATEVER YOU WANT, just code and let us know.; 
 
 ## General Usage
  ### Peaw Single Post Preview
@@ -37,6 +29,11 @@ What we are creating and you can help
 <<<<<<< HEAD
   
 ## FAQ
-#### How can I know the Post id?
+### How can I know the Post id?
 This plugin adds the ID column in your "All Posts" section on the wordpress admin panel.
 
+## What's missing
+What we are creating and you can help 
+  1. Fix the 16:9 ratio image problem (if you add a non 16:9 ratio featured image, you can experience some styling mistakes); 
+  2. Custom Post Card size; 
+  3. WHATEVER YOU WANT, just code and let us know.; 

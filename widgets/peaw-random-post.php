@@ -38,7 +38,16 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 				$post_id		= $post->ID;
 				$post_title 	= $post->post_title;
 				$publish_date 	= get_the_date('F j, Y', $post_id);
-				$call_text		= $post->post_excerpt;
+				if(empty($post->post_excerpt)){
+					$call_text = strip_tags($post->post_content);
+					if(strlen($call_text) > 85){
+						$call_text = substr($call_text, 0, 85);
+						$call_text = $call_text . '(...)';
+					}
+					
+				}else{
+					$call_text		= $post->post_excerpt;
+				}
 
 				$categories 	= get_the_category($post_id);
 				$category_output= '';

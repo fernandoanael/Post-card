@@ -26,7 +26,7 @@ class PEAW_Single_Post extends WP_Widget{
 		 *	Get the data from the Widget Form.
 		 */
 		$post_id 	= (isset($instance['post_id'])) && ($instance['post_id'] !== 0) ? $instance['post_id'] : null ;
-		$call_text 	= ($instance['call_text']) ? $instance['call_text'] : __('Insert an Awesome Calling text here.', PEAW_TEXT_DOMAIN) ; 
+		$call_text 	= ($instance['call_text']) ? strip_tags($instance['call_text']) : __('Insert an Awesome Calling text here.', PEAW_TEXT_DOMAIN) ; 
 
 		/*
 		 *	If there's a post with the given ID, let's set all the variables

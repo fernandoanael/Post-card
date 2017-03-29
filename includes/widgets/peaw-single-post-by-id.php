@@ -6,18 +6,18 @@
  * @author      Fernando Cabral
  * @license     GPLv3
  */
-class PEAW_Single_Post extends WP_Widget{
+class PEAW_Single_Post_By_ID extends WP_Widget{
 	public function __construct(){
-		$base_id 			= "PEAW_Single_Post";
-		$widget_name 		= 'PEAW:' . __(' Single Post Preview' , PEAW_TEXT_DOMAIN);
+		$base_id 			= "PEAW_Single_Post_By_ID";
+		$widget_name 		= 'Post Preview Card:' . __(' Single Post by ID' , PEAW_TEXT_DOMAIN);
 		$sidebar_options 	= [
-			'classname' 					=> 'peaw_single_post',
-			'description'					=> __('Preview single post by id on static elementor page', PEAW_TEXT_DOMAIN),
+			'classname' 					=> 'peaw_single_post_by_id',
+			'description'					=> __('Preview single post by given id.', PEAW_TEXT_DOMAIN),
 			'customize_selective_refresh' 	=> true,
 		];
 
 		parent::__construct($base_id,$widget_name,$sidebar_options);
-		$this->alt_option_name = "peaw_single_post";
+		$this->alt_option_name = "peaw_single_post_by_id";
 	}
 	
 	public function widget($args, $instance){
@@ -25,13 +25,13 @@ class PEAW_Single_Post extends WP_Widget{
 		/*
 		 *	Get the data from the Widget Form.
 		 */
-		$post_id 	= (isset($instance['post_id'])) && ($instance['post_id'] !== 0) ? $instance['post_id'] : null ;
-		$call_text 	= ($instance['call_text']) ? strip_tags($instance['call_text']) : __('Insert an Awesome Calling text here.', PEAW_TEXT_DOMAIN) ; 
+		$post_id 	= isset($instance['post_id']) ? $instance['post_id']: 'Invalid_Post_ID';
+		$call_text 	= isset($instance['call_text']) && !empty($instance['call_text']) ? sanitize_text_field($instance['call_text']) : ''; 
 
 		/*
 		 *	If there's a post with the given ID, let's set all the variables
 		 */
-		if(get_post($post_id)){
+		if(get_post($post_id) && $post_id !== 'Invalid_Post_ID'){
 			$peaw_post 	= get_post($post_id);
 			$post_title = $peaw_post->post_title;
 			$publish_date = get_the_date('F j, Y',$post_id);
@@ -50,25 +50,33 @@ class PEAW_Single_Post extends WP_Widget{
 			if(has_post_thumbnail($post_id)){
 
 				$img = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
+				$img = $img[0];
 
 			}else{
-				$img[0] = PEAW_URI . 'img/image-not-found.png'; 
+				$img = PEAW_URI . 'public/images/image-not-found.png'; 
 			}
-		//Create error message to display as a post card
+
+			//If user don't want to use the call text, it will become the post excerpt
+			if(empty($call_text)){
+				$call_text = substr(strip_tags($peaw_post->post_content), 0, 85).'(...)';
+			}
+		
 		}else{
+			//Create error message to display as a post card
 			$post_title = __('Post not Found, insert a valid ID', PEAW_TEXT_DOMAIN);
 			$publish_date = __('date not found', PEAW_TEXT_DOMAIN);
 			$category_output = "<a class='peaw-category-link' href='#'>".__('Category not found', PEAW_TEXT_DOMAIN)."</a>";
 			$post_link = "#";
+			$call_text = __('Call Text Nor Post Excerpt Found. Please insert a valid ID', PEAW_TEXT_DOMAIN);
 		}
 
 
 		echo $args['before_widget'];	
-		//Render widget itself
+		//Render widget
 	?>
 		<div class="card" style="width: 22rem;">
 
-			<img src="<?php echo $img[0] ?>" width="480" height="270">
+			<img src="<?php echo $img; ?>" width="480" height="270">
 
 		  <div class="card-block">
 		  	<p class="card-text">
@@ -106,24 +114,35 @@ class PEAW_Single_Post extends WP_Widget{
 	public function update($new_instance, $old_instance){
 		$instance = $old_instance;
 
-		$instance['post_id'] 	= (int) $new_instance['post_id'];
-		$instance['call_text'] = ( ! empty( $new_instance['call_text'] ) ) ? strip_tags( $new_instance['call_text'] ) : '';
+		if(is_int((int)$new_instance['post_id']) && !empty($new_instance['post_id'])){
+			$instance['post_id'] 	= $new_instance['post_id'];
+		}else{
+			$instance['post_id'] = 'Invalid_Post_ID';
+		}
+
+		if(!empty($new_instance['call_text'])){
+			$new_instance['call_text'] = sanitize_text_field($new_instance['call_text']);
+			$instance['call_text'] = $new_instance['call_text'];
+
+		}else{
+			$instance['call_text'] = '';
+		}
 
 		return $instance;
 	}
 
 	public function form($instance){
 		$post_id 	= isset($instance['post_id']) ? esc_attr($instance['post_id'] ) : 0 ;
-		$call_text = ! empty( $instance['call_text'] ) ? $instance['call_text'] : esc_html__( 'New call_text', PEAW_TEXT_DOMAIN );
+		$call_text = ! empty( $instance['call_text'] ) ? esc_attr($instance['call_text']) : esc_html__( 'New call_text', PEAW_TEXT_DOMAIN );
 	?>
 		<p><label for="<?php echo esc_attr($this->get_field_id('post_id')); ?>">
-			<?php _e('Post ID', PEAW_TEXT_DOMAIN); ?>
+			<?php esc_attr_e('Post ID', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
 		<input class="widefat" id="<?php echo esc_attr($this->get_field_id('post_id')); ?>" type="number" name="<?php echo esc_attr($this->get_field_name('post_id')); ?>" value="<?php echo $post_id; ?>" >
 
-		<label for="<?php echo esc_attr( $this->get_field_id( 'call_text' ) ); ?>"><?php esc_attr_e( 'call text:', PEAW_TEXT_DOMAIN ); ?></label> 
-		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'call_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'call_text' ) ); ?>" type="text" value="<?php echo esc_attr( $call_text ); ?>">
-		</p>
+		<p><label for="<?php echo esc_attr( $this->get_field_id( 'call_text' ) ); ?>"><?php esc_attr_e( 'call text:', PEAW_TEXT_DOMAIN ); ?></label></p> 
+		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'call_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'call_text' ) ); ?>" type="text" value="<?php echo $call_text; ?>">
+		<p class="random-post-call-text-notice">Call text is by default the Post's Excerpt</p>
 	<?php
 	}
 

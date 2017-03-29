@@ -46,7 +46,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 					}
 					
 				}else{
-					$call_text		= $post->post_excerpt;
+					$call_text		= strip_tags($post->post_excerpt);
 				}
 
 				$categories 	= get_the_category($post_id);

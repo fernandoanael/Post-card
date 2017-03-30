@@ -23,13 +23,6 @@ class Peaw_Class{
 	}
 
 	/*
-	 *	Loads the post-preview-card textdomain
-	 */
-	public function peaw_load_textdomain(){
-		load_plugin_textdomain("post-preview-card");
-	}
-
-	/*
 	 *	Clonning and unserializing instances is forbidden
 	 */
 	public function __clone(){

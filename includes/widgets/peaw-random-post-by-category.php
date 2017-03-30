@@ -9,7 +9,7 @@
 class PEAW_Random_Post_By_Category extends WP_Widget{
 	public function __construct(){
 		$base_id 			= "PEAW_Random_Post_By_Category";
-		$widget_name 		= 'PEAW:' . __(' Random Post By Category' , PEAW_TEXT_DOMAIN);
+		$widget_name 		= 'Post Preview Card:' . __(' Random Post By Category' , PEAW_TEXT_DOMAIN);
 		$sidebar_options 	= [
 			'classname' 					=> 'peaw_random_post_by_category',
 			'description'					=> __('Preview random post by given category', PEAW_TEXT_DOMAIN),
@@ -21,8 +21,8 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 	}
 
 	public function widget($args,$instance){
-		//Check if user set a valid category
-		if(isset($instance['category'])){
+		/* Check if Category is set, not null, really exists and has at least 1 post assigned to it.*/
+		if(isset($instance['category']) && !is_null($instance['category']) && term_exists(get_cat_name($instance['category'])) && $this->peaw_is_cat_empty($instance['category']) == false){
 			$category_id 		= $instance['category'];
 			
 			//Set 1 Random post per category 
@@ -38,17 +38,19 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 				$post_id		= $post->ID;
 				$post_title 	= $post->post_title;
 				$publish_date 	= get_the_date('F j, Y', $post_id);
+
+				/* Check if post has an excerpt, if not generate a post excerpt using the firsts 85 characters of content */
 				if(empty($post->post_excerpt)){
 					$call_text = strip_tags($post->post_content);
 					if(strlen($call_text) > 85){
 						$call_text = substr($call_text, 0, 85);
 						$call_text = $call_text . '(...)';
-					}
-					
+					}					
 				}else{
 					$call_text		= strip_tags($post->post_excerpt);
 				}
 
+				//Get the categorys assigned to this post
 				$categories 	= get_the_category($post_id);
 				$category_output= '';
 				foreach ($categories as $category) {
@@ -56,26 +58,30 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 				 	$category_output .= "<a class='peaw-category-link' href='".$cat_link."'>".$category->name."</a>";
 				 } 
 
+				 //Get the post link
 				$post_link = get_post_permalink($post_id);
 
 				//If post has thumbnail set it, otherwise, get the default image
 				if(has_post_thumbnail($post_id)){
 
 					$img = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
+					$img = $img[0];
 
 				}else{
-					$img[0] = PEAW_URI . 'img/image-not-found.png'; 
+					$img = PEAW_URI . 'public/images/image-not-found.png'; 
 				}
 			}
-		//If User didnt set a valid category
+		
+		/* If Category is not set or null or does not exist or doesn't have any post assigned we create an error message  */
 		}else{
-			$post_title 	= __('Insert a Valid Category', PEAW_TEXT_DOMAIN);
-			$publish_date 	= __('No date found', PEAW_TEXT_DOMAIN);
-			$call_text		= __('Insert a Valid category by going to Elementor page builder or in the default wordpress widget admin area', PEAW_TEXT_DOMAIN);
+			//If User didnt set a valid category
+			$post_title 	= __('Something is wrong', PEAW_TEXT_DOMAIN);
+			$publish_date 	= __('Date not found', PEAW_TEXT_DOMAIN);
+			$call_text		= __('This can be caused by invalid category, category with no posts or category recently deleted.', PEAW_TEXT_DOMAIN);
 			$category_output = "<a class='peaw-category-link' href='#'>".
 								__('No category', PEAW_TEXT_DOMAIN)."</a>";
 			$post_link = "#";
-			$img[0] = PEAW_URI . 'img/image-not-found.png';
+			$img = PEAW_URI . 'public/images/image-not-found.png';
 		}
 		
 
@@ -84,34 +90,27 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 	?>
 		<div class="card" style="width: 22rem;">
 
-			<img src="<?php echo $img[0] ?>" width="480" height="270">
+			<img src="<?php echo esc_attr($img); ?>" width="480" height="270">
 
 		  <div class="card-block">
 		  	<p class="card-text">
 		  		<span class="peaw-info-span">
 		  			<i class="fa fa-clock-o"></i>
 		  		</span>
-		  		<?php echo $publish_date; ?> in <?php echo $category_output; ?>
+		  		<?php echo esc_html($publish_date); ?> in <?php echo $category_output; ?>
 
 		  	</p>
 
-		    <h4 class="card-title"><?php echo $post_title; ?></h4>
+		    <h4 class="card-title"><?php echo esc_html($post_title); ?></h4>
 
 		    <p class="peaw-call-text">
-		    <?php 
-		    	//If call text (excerpt) is empty and is admin user and the user set a valid category
-		    	if((empty($call_text)) && (current_user_can('edit_posts')) && (isset($intance['category']))){
-	    			edit_post_link( __('Add Excerpt'), '', "", $post_id);
-	    		}else{
-	    			echo $call_text;
-	    		}
-		    ?>
+		    <?php echo esc_html($call_text); ?>
 		   
 		    </p>
 
-		    <a href="<?php echo $post_link; ?>" class=" peaw-read-more">
+		    <a href="<?php esc_attr($post_link); ?>" class=" peaw-read-more">
 		    
-		    	Read More
+		    	<?php esc_html_e('Read More', PEAW_TEXT_DOMAIN); ?>
 
 		    	<span class="peaw-read-more-span">
 
@@ -129,16 +128,25 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 	}
 
 	public function update($new_instance, $old_instance){
-		$instance = [];
+		//If no old instance ever existed we return an empty array
+		$instance = isset($old_instance) ? $old_instance : array();
 
-		$instance['category'] = $new_instance['category'];
+		//Check if category is set, not null, and is Integer
+		if(isset($new_instance['category']) && !is_null($new_instance['category']) && is_int((int)$new_instance['category'])){
+			$instance['category'] = $new_instance['category'];
+		}else{
+			//Passes a null value to the category and let the widget function take care of it after
+			$instance['category'] = null;
+		}
 
 		return $instance;
 	}
 
 	public function form($instance){
+		//Check if category is empty, if it is set null to it
 		$category = !empty($instance['category']) ? esc_attr($instance['category']) : null ; 
 
+		//Prepare the wp_dropdown_categories to work as I want
 		$category_query_args = array(
 			'hide_empty' 		=> true,
 			'exclude'			=> '1',
@@ -151,12 +159,34 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 		);
 		?>
 		
-	    <p><label for="<?php echo esc_attr($this->get_field_id( 'category' )); ?>"><?php _e( 'Select category', PEAW_TEXT_DOMAIN ); ?>:
+	    <p><label for="<?php echo esc_attr($this->get_field_id( 'category' )); ?>"><?php esc_attr_e( 'Select category', PEAW_TEXT_DOMAIN ); ?>:
 	    </label></p>
 
 	    <?php wp_dropdown_categories($category_query_args); ?>
 	  	
-	  	<p class="random-post-call-text-notice">Call text is by default the Post's Excerpt</p>
+	  	<p class="random-post-call-text-notice">Call text is the post excerpt and if it is empty, it will be the first 85 characters of the post content.</p>
 	  <?php
+	}
+
+	/* 
+	 *	peaw_is_cat_empty()
+	 *	Checks if given category has at least 1 post assigned to it.
+	 * 	Returns true if found no posts
+	 * 	Returns false if found at least 1 post 
+	 */
+	public function peaw_is_cat_empty($category){
+		$category_id = $category;
+		$posts_query_args 	= array(
+				'posts_per_page'	=> 1,
+				'category'			=> $category_id,
+				'orderby'			=> 'rand', 
+			);
+		$peaw_posts = get_posts($posts_query_args);
+
+		if(empty($peaw_posts)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

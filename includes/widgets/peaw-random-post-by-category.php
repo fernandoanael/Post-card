@@ -18,9 +18,17 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 
 		parent::__construct($base_id,$widget_name,$sidebar_options);
 		$this->alt_option_name = "peaw_random_post_by_category";
+		
+		/* Register Styles and Scripts but don't Enqueue. */
+		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
+		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
 	}
 
 	public function widget($args,$instance){
+		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
+		wp_enqueue_style('bootstrap-v4');
+		wp_enqueue_style('peaw-post-preview-card');
+		
 		/* Check if Category is set, not null, really exists and has at least 1 post assigned to it.*/
 		if(isset($instance['category']) && !is_null($instance['category']) && term_exists(get_cat_name($instance['category'])) && $this->peaw_is_cat_empty($instance['category']) == false){
 			$category_id 		= $instance['category'];

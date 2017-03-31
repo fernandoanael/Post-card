@@ -37,11 +37,7 @@ class Peaw_Class{
 	 */
 	private function __construct(){
 
-		add_action('init', array($this,'peaw_load_textdomain'));
-
 		add_action('widgets_init',array($this,'peaw_add_widgets'));
-
-		add_action( 'wp_enqueue_scripts',array($this,'peaw_includes'));
 
 		add_filter('manage_posts_columns', array($this, 'peaw_add_post_id_to_column'));
 
@@ -60,15 +56,6 @@ class Peaw_Class{
 		//Random Post by cat
 		include_once(PEAW_PATH . 'includes/widgets/peaw-random-post-by-category.php');
 		register_widget('PEAW_Random_Post_By_Category');
-	}
-
-	/*
-	 *	Apply styles and Javascript
-	 */
-	public function peaw_includes(){
-		wp_enqueue_style( 'bootstrap-peaw-style', PEAW_URI . 'public/css/bootstrap.css');
-		wp_enqueue_script('bootstrap-js', PEAW_URI .'public/js/bootstrap.js' );
-		wp_enqueue_style( 'peaw-single-post-style', PEAW_URI . 'public/css/post-card-preview.css');
 	}
 
 	/*

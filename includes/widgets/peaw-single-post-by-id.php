@@ -18,9 +18,16 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 
 		parent::__construct($base_id,$widget_name,$sidebar_options);
 		$this->alt_option_name = "peaw_single_post_by_id";
+
+		/* Register Styles and Scripts but don't Enqueue. */
+		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
+		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
 	}
 	
 	public function widget($args, $instance){
+		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
+		wp_enqueue_style('bootstrap-v4');
+		wp_enqueue_style('peaw-post-preview-card');
 
 		/*
 		 *	Get the data from the Widget Form. 

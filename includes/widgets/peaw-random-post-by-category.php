@@ -94,7 +94,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 		
 
 		echo $args['before_widget'];	
-		//Render widget itself
+		//Render widget
 	?>
 		<div class="card" style="width: 22rem;">
 
@@ -177,7 +177,6 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 	}
 
 	/* 
-	 *	peaw_is_cat_empty()
 	 *	Checks if given category has at least 1 post assigned to it.
 	 * 	Returns true if found no posts
 	 * 	Returns false if found at least 1 post 

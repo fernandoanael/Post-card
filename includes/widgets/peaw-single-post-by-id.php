@@ -31,8 +31,8 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 
 		/*
 		 *	Get the data from the Widget Form. 
-		 *	post_id checks if there's a id set, otherwise set as an invalid_post_id status
-		 *	call_text checks it is set and not empty. If it is, set it to a empty string
+		 *	post_id checks if there's an id set, otherwise set as an invalid_post_id status
+		 *	call_text checks if it is set and not empty.
 		 */
 		$post_id 	= isset($instance['post_id']) ? $instance['post_id']: 'Invalid_Post_ID';
 		$call_text 	= isset($instance['call_text']) && !empty($instance['call_text']) ? sanitize_text_field($instance['call_text']) : ''; 

@@ -59,7 +59,7 @@ class Peaw_Class{
 	}
 
 	/*
-	 *	Add the post id on the All Post column
+	 *	Add the post id on the All Post Table
 	 */
 	public function peaw_add_post_id_to_column($columns){
 		if(!isset($columns['peaw_id'])){
@@ -69,7 +69,7 @@ class Peaw_Class{
 	}
 
 	/*
-	 *	Show the Post id on the All Post column
+	 *	Show the Post id on the All Post Table
 	 */
 	public function peaw_show_post_id($column, $id){
 		if('post_id' == $column){

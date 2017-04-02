@@ -92,7 +92,7 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 		  <div class="card-block">
 		  	<p class="card-text">
 		  		<span class="peaw-info-span">
-		  			<i class="fa fa-clock-o"></i>
+		  			<i class="dashicons dashicons-clock"></i>
 		  		</span>
 		  		<?php echo esc_html($publish_date); ?> in <?php echo $category_output; ?>
 
@@ -108,7 +108,7 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 
 		    	<span class="peaw-read-more-span">
 
-		    		<i class="fa fa-arrow-right"></i>
+		    		<i class="dashicons dashicons-arrow-right-alt2"></i>
 		    		
 		    	</span>
 

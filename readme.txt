@@ -28,7 +28,7 @@ Both widgets have the same layout that consists:
 
 More layout options and full customization is being developed, so you'll be able to choose from optionals layouts, colors, default images for posts without featured images or complete remove the feature image.
 
-= Easy to User = 
+= Easy to Use = 
 Using a Page Builder like [Elementor](https://wordpress.org/plugins/elementor/) simply drag and drop the widget you want.
 *	Using the 'Single Post by ID': In the widget form insert the Id of the post you want to be previewed (If you don't know the ID, go to the 'All Posts' section on the Admin Panel and a new column containing the post id will be displayed). Then add a cool Call Text or left it empty and we will handle this for you.
 *	Using the 'Random Post by Category': In the widget form choose the category you want from the dropdown. Only Categories with posts assigned will be displayed. As this widget will display random posts, you can not specify a call text, the widget will use the Post Excerpt or will user the firsts 85 letters from the post content. Note that if you delete a category or delete all the posts assigned to it, an error message will be displayed.

@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name: Post Preview Card
  * Plugin URI:  https://github.com/fernandoanael/Post-card
- * Description: This plugins adds a Post Preview Widget in Card shape. It also adds the Post ID column in the all post section in your admin panel.
+ * Description: This plugins adds 2 Post Preview Widgets in Card shape. It also adds the Post ID column in the all post section in your admin panel.
  * Version:     1.0.0
  * Author:      Fernando Anael Cabral
  * Author URI:  https://github.com/fernandoanael

@@ -45,3 +45,6 @@ define('PEAW_TEXT_DOMAIN', 'post-preview-card');
 
 /* Loads the Post_Preview_Card plugin Class */
 require_once(PEAW_PATH . 'includes/peaw-class.php');
+
+/* Loads the Peaw_admin Class */
+require_once(PEAW_PATH . 'admin/peaw-admin-class.php');

@@ -50,12 +50,18 @@ class Peaw_Class{
 	 */
 	public static function peaw_add_widgets(){
 		//Single Post by Id
-		include_once( PEAW_PATH . 'includes/widgets/peaw-single-post-by-id.php');
-		register_widget('PEAW_Single_Post_By_ID');
+		$widgets_list = array(
+			'Single_Post_by_ID'	=> array(
+					'ID'	=>	'PEAW_Single_Post_By_ID',
+					'path'	=>	 PEAW_PATH . 'includes/widgets/peaw-single-post-by-id.php',	
+			),
+			'Random_Post_by_Cat' =>	array(
+					'ID'	=>	'PEAW_Random_Post_By_Category',
+					'path'	=>	 PEAW_PATH . 'includes/widgets/peaw-random-post-by-category.php',	
+			),
+		);
 
-		//Random Post by cat
-		include_once(PEAW_PATH . 'includes/widgets/peaw-random-post-by-category.php');
-		register_widget('PEAW_Random_Post_By_Category');
+		Peaw_Widget_Manager::peaw_register_approved_widgets($widgets_list);
 	}
 
 	/*

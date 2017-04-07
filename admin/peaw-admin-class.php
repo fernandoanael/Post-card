@@ -86,7 +86,8 @@ class Peaw_Admin {
 	 *	Form Inputs Renderizer Callbacks Part
 	 */
 	public function peaw_render_form_checkbox_widget_selection(){
-		$html = '';
+		$options = new Peaw_Options_Manager();
+		$options->say_hi();
 	}
 }
 add_action('init', array('Peaw_Admin','get_instance'));

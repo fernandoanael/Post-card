@@ -43,6 +43,9 @@ define('PEAW_URI', trailingslashit(plugin_dir_url(__FILE__)));
 /* Set constant to the textdomain value */
 define('PEAW_TEXT_DOMAIN', 'post-preview-card');
 
+/* */
+require_once(PEAW_PATH . 'includes/options/loaders/peaw_autoloader.php');
+
 /* Loads the Post_Preview_Card plugin Class */
 require_once(PEAW_PATH . 'includes/peaw-class.php');
 

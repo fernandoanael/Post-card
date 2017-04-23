@@ -24,70 +24,68 @@ class Peaw_Admin {
 		}
 		return self::$instance;
 	}
-
+	/*
+		==================================
+			Initialization Functions
+		==================================
+	*/
 	private function __construct(){
-		add_action('admin_menu', array($this,'peaw_add_settings_pages'));
-		add_action('admin_menu', array($this,'peaw_create_settings'));
-	}
+		/*Add The menu and submenus. The callbkac does it */
+		add_action( 'admin_menu', [$this,'peaw_add_menu_pages']);
 
-	public function peaw_add_settings_pages(){
-		$peaw_slug = 'peaw_settings';
-		$capability = 'manage_options';
-		add_options_page(
-			'Post Preview Card Settings',
-			'Post Preview Card',
-			$capability,
-			'peaw_settings',
-			'Peaw_Admin::peaw_render_general_settings_page'
-		);
-	}
+		/*Add the custom settings*/
+		add_action( 'admin_init', [$this,'peaw_custom_settings']);
 
-	public function peaw_create_settings(){
-		/* Create the col in the db under the given group and with the name of second parameter */
-		register_setting(
-			'peaw-general-settings-group',
-			'peaw_widgets_selection_checkbox'
-		);
-
-		/* Section of Settings */
-		add_settings_section(
-			'peaw-general-settings-section',
-			__('General Settings', PEAW_TEXT_DOMAIN),
-			'Peaw_Admin::peaw_render_setcion_general_settings',
-			'peaw_settings'
-		);
-
-		/* Add the settings it self */
-		add_settings_field(
-			'peaw_widgets_selection_checkbox',
-			'Widget Selection',
-			'Peaw_Admin::peaw_render_form_checkbox_widget_selection',
-			'peaw_settings',
-			'peaw-general-settings-section'
-		);
 	}
 
 	/*
-	 *	Page Renderizer Callbacks Part
-	 */
+		=================================
+			MENU AND SUBMENU callbacks
+		=================================
+	*/
 
-	public function peaw_render_general_settings_page(){
-		require_once(PEAW_PATH . 'admin/partials/peaw-admin-renderizer-view.php');
+	/*Add the menu and submenu pages*/
+	public function peaw_add_menu_pages(){
+		/*Add Main menu page and submenu attached to it */
+		add_menu_page( 'Post Preview Card General Settings', 'Post Preview Card', 'manage_options', 'peaw_settings', [$this,'peaw_render_settings_general_page'], '', 110 );
+		add_submenu_page( 'peaw_settings', 'Post Preview Card General Settings', 'General', 'manage_options', 'peaw_settings', [$this,'peaw_render_settings_general_page'] );
+
+		/*Add Widgets Settings Sub Menu*/
+		add_submenu_page( 'peaw_settings', 'Post Preview Card Widgets Settings', 'Widgets', 'manage_options', 'peaw_settings_widgets', [$this,'peaw_render_settings_widgets_page']);
 	}
 
 	/*
-	 *	Section Renderizer Callbacks Part
-	 */
-	public function peaw_render_setcion_general_settings(){
-		esc_attr_e('Select which widgets to add, Remove Post id from the "All Posts" section and more',PEAW_TEXT_DOMAIN);
+		========================================
+			RENDER SETTINGS PAGES callbacks
+		========================================
+		Theses callbacks will require a specific partial settings template
+	*/
+
+	/*Render the general settings page*/
+	public function peaw_render_settings_general_page(){
+		require_once(PEAW_PATH.'admin/partials/peaw-admin-settings-general-page.php');
+	}
+
+	/*Render the widgets settings page*/
+	public function peaw_render_settings_widgets_page(){
+		require_once(PEAW_PATH.'admin/partials/peaw-admin-settings-widgets-page.php');
 	}
 
 	/*
-	 *	Form Inputs Renderizer Callbacks Part
-	 */
-	public function peaw_render_form_checkbox_widget_selection(){
-		$options = new Peaw_Options_Manager();
-		$options->say_hi();
+		==============================================
+			REGISTER SETTINGS AND SETCIONS callback
+		==============================================
+	*/
+
+	public function peaw_custom_settings(){
+		/*
+			add_settings_section( $id, $title, $callback, $page );
+			add_settings_field( $id, $title, $callback, $page, $section, $args ); 
+			register_setting( $option_group, $option_name, $sanitize_callback );
+		*/
+		Peaw_General_Settings_Manager::peaw_build_options();
+		Peaw_Widget_Register_Manager::peaw_build_options();
+
 	}
 }
 add_action('init', array('Peaw_Admin','get_instance'));

@@ -163,7 +163,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			'name' 				=> esc_attr($this->get_field_name('category')),
 			'id'				=> esc_attr($this->get_field_id('category')),
 			'selected' 			=> absint($category),
-			'class'				=> 'postform widefat random-post-categoty-selector',
+			'class'				=> 'postform widefat random-post-categoty-selector',//error
 		);
 		?>
 		

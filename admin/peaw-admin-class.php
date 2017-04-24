@@ -78,11 +78,7 @@ class Peaw_Admin {
 	*/
 
 	public function peaw_custom_settings(){
-		/*
-			add_settings_section( $id, $title, $callback, $page );
-			add_settings_field( $id, $title, $callback, $page, $section, $args ); 
-			register_setting( $option_group, $option_name, $sanitize_callback );
-		*/
+
 		Peaw_General_Settings_Manager::peaw_build_options();
 		Peaw_Widget_Register_Manager::peaw_build_options();
 

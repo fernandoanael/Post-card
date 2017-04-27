@@ -37,6 +37,10 @@ class Peaw_Class{
 	 */
 	private function __construct(){
 
+		/* Register Base Styles and Scripts but don't Enqueue. */
+		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
+		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+		/* Initialize widgets, layouts, and extra functionalities*/
 		add_action('widgets_init',array($this,'peaw_add_widgets'));
 		add_action('widgets_init',array($this,'peaw_add_layouts'));
 		if(Peaw_General_Settings_Manager::peaw_get_settings_value('peaw_show_post_id') == 'true'){
@@ -64,6 +68,13 @@ class Peaw_Class{
 					'name'	=>	'Random Post by Category',
 					'option_name'	=>	'post_by_cat',	
 			),
+			2	=>	array(
+					'ID' 	=>	'PEAW_Multiple_Posts',
+					'path'	=>	 PEAW_PATH . 'includes/widgets/peaw-multiple-posts.php',
+					'name'	=>	'Multiple Posts',
+					'option_name'	=>	'peaw_multiple_posts',
+
+			),
 		);
 		Peaw_Widget_Register_Manager::peaw_register_approved_widgets($widgets_list);
 	}
@@ -73,7 +84,10 @@ class Peaw_Class{
 	 */
 	public static function peaw_add_layouts(){
 		$layouts_list = array(
-			array('Original Layout','Peaw_Layout_Original_Card'),
+			'original_layout' => array(
+					'layout_name' 		=> 'Original Layout',
+					'layout_class_name' => 'Peaw_Layout_Original_Card',
+			),
 		);
 
 		Peaw_Layouts_Manager::peaw_layout_register($layouts_list);

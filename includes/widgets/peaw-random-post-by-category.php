@@ -18,16 +18,11 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 
 		parent::__construct($base_id,$widget_name,$sidebar_options);
 		$this->alt_option_name = "peaw_random_post_by_category";
-		
-		/* Register Styles and Scripts but don't Enqueue. */
-		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+
 	}
 
 	public function widget($args,$instance){
-		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
-		wp_enqueue_style('bootstrap-v4');
-		wp_enqueue_style('peaw-post-preview-card');
+		$peaw_widget = new Peaw_Widget;
 		
 		/* Check if Category is set, not null, really exists and has at least 1 post assigned to it.*/
 		if(isset($instance['category']) && !is_null($instance['category']) && term_exists(get_cat_name($instance['category'])) && $this->peaw_is_cat_empty($instance['category']) == false){
@@ -44,8 +39,8 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			$peaw_posts = get_posts($posts_query_args);
 			foreach ($peaw_posts as $post) {
 				$post_id		= $post->ID;
-				$post_title 	= $post->post_title;
-				$publish_date 	= get_the_date('F j, Y', $post_id);
+				$peaw_widget->post_title 	= $post->post_title;
+				$peaw_widget->publish_date 	= get_the_date('F j, Y', $post_id);
 
 				/* Check if post has an excerpt, if not generate a post excerpt using the firsts 85 characters of content */
 				if(empty($post->post_excerpt)){
@@ -58,81 +53,45 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 					$call_text		= strip_tags($post->post_excerpt);
 				}
 
+				$peaw_widget->call_text = $call_text;
+
 				//Get the categorys assigned to this post
 				$categories 	= get_the_category($post_id);
 				$category_output= '';
 				foreach ($categories as $category) {
 				 	$cat_link = get_category_link($category->term_id);
 				 	$category_output .= "<a class='peaw-category-link' href='".$cat_link."'>".$category->name."</a>";
-				 } 
+				} 
+
+				$peaw_widget->category_output = $category_output;
 
 				 //Get the post link
-				$post_link = get_post_permalink($post_id);
+				$peaw_widget->post_link = get_post_permalink($post_id);
 
 				//If post has thumbnail set it, otherwise, get the default image
 				if(has_post_thumbnail($post_id)){
 
-					$img = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
-					$img = $img[0];
+					$image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
+					$image = $image[0];
 
 				}else{
-					$img = PEAW_URI . 'public/images/image-not-found.png'; 
+					$image = PEAW_URI . 'public/images/image-not-found.png'; 
 				}
+				$peaw_widget->image = $image;
 			}
 		
 		/* If Category is not set or null or does not exist or doesn't have any post assigned we create an error message  */
 		}else{
 			//If User didnt set a valid category
-			$post_title 	= __('Something is wrong', PEAW_TEXT_DOMAIN);
-			$publish_date 	= __('Date not found', PEAW_TEXT_DOMAIN);
-			$call_text		= __('This can be caused by invalid category, category with no posts or category recently deleted.', PEAW_TEXT_DOMAIN);
-			$category_output = "<a class='peaw-category-link' href='#'>".
+			$peaw_widget->post_title 	= __('Something is wrong', PEAW_TEXT_DOMAIN);
+			$peaw_widget->publish_date 	= __('Date not found', PEAW_TEXT_DOMAIN);
+			$peaw_widget->call_text		= __('This can be caused by invalid category, category with no posts or category recently deleted.', PEAW_TEXT_DOMAIN);
+			$peaw_widget->category_output = "<a class='peaw-category-link' href='#'>".
 								__('No category', PEAW_TEXT_DOMAIN)."</a>";
-			$post_link = "#";
-			$img = PEAW_URI . 'public/images/image-not-found.png';
+			$peaw_widget->post_link = "#";
+			$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png';
 		}
-		
-
-		echo $args['before_widget'];	
-		//Render widget
-	?>
-		<div class="card" style="width: 22rem;">
-
-			<img src="<?php echo esc_attr($img); ?>" width="480" height="270">
-
-		  <div class="card-block">
-		  	<p class="card-text">
-		  		<span class="peaw-info-span">
-		  			<i class="dashicons dashicons-clock"></i>
-		  		</span>
-		  		<?php echo esc_html($publish_date); ?> in <?php echo $category_output; ?>
-
-		  	</p>
-
-		    <h4 class="card-title"><?php echo esc_html($post_title); ?></h4>
-
-		    <p class="peaw-call-text">
-		    <?php echo esc_html($call_text); ?>
-		   
-		    </p>
-
-		    <a href="<?php esc_attr($post_link); ?>" class=" peaw-read-more">
-		    
-		    	<?php esc_html_e('Read More', PEAW_TEXT_DOMAIN); ?>
-
-		    	<span class="peaw-read-more-span">
-
-		    		<i class="dashicons dashicons-arrow-right-alt2"></i>
-		    		
-		    	</span>
-
-		    </a>
-
-		  </div>
-
-		</div>
-	<?php
-		echo $args['after_widget'];
+		Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
 	}
 
 	public function update($new_instance, $old_instance){
@@ -146,6 +105,39 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			//Passes a null value to the category and let the widget function take care of it after
 			$instance['category'] = null;
 		}
+
+		/*Mutual Instance Begin*/
+		if(!empty($new_instance['layout_selected'])){
+			$instance['layout_selected'] = $new_instance['layout_selected'];
+		}else{
+			$instance['layout_selected'] = null;
+		}
+
+		if(!empty($new_instance['full_type_selected'])){
+			$instance['full_type_selected'] = $new_instance['full_type_selected'];
+		}else{
+			$instance['full_type_selected'] = null;
+		}
+
+		if(!empty($new_instance['font_size']) && is_int((int)$new_instance['font_size'])){
+			$instance['font_size'] = $new_instance['font_size'];
+		}else{
+			$instance['font_size'] = null;
+		}
+
+		if(!empty($new_instance['excerpt_length']) && is_int((int)$new_instance['excerpt_length'])){
+			$instance['excerpt_length'] = $new_instance['excerpt_length'];
+		}else{
+			$instance['excerpt_length'] = null;
+		}
+
+		if(!empty($new_instance['read_more_text'])){
+			$instance['read_more_text'] = sanitize_text_field($new_instance['read_more_text']);
+
+		}else{
+			$instance['read_more_text'] = '';
+		}
+		/* Mutual Form instance End */
 
 		return $instance;
 	}
@@ -165,6 +157,14 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			'selected' 			=> absint($category),
 			'class'				=> 'postform widefat random-post-categoty-selector',//error
 		);
+
+		$layout_selected = !empty($instance['layout_selected']) ? esc_attr($instance['layout_selected']) : null;
+		$layouts_list = Peaw_Layouts_Manager::peaw_get_layouts_list();//This should be like this, it should be private function
+		$full_type_selected = !empty($instance['full_type_selected']) ? esc_attr($instance['full_type_selected']) : null;
+		$font_size = !empty($instance['font_size']) ? esc_attr($instance['font_size']) : null;
+		$excerpt_length = !empty($instance['excerpt_length']) ? esc_attr($instance['excerpt_length']) : null;
+
+		$read_more_text = ! empty( $instance['read_more_text'] ) ? esc_attr($instance['read_more_text']) : esc_html__( 'Read More', PEAW_TEXT_DOMAIN );
 		?>
 		
 	    <p><label for="<?php echo esc_attr($this->get_field_id( 'category' )); ?>"><?php esc_attr_e( 'Select category', PEAW_TEXT_DOMAIN ); ?>:
@@ -173,6 +173,63 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 	    <?php wp_dropdown_categories($category_query_args); ?>
 	  	
 	  	<p class="random-post-call-text-notice">Call text is the post excerpt and if it is empty, it will be the first 85 characters of the post content.</p>
+
+	  	<!-- Mutual Plugin Area Begin -->
+		<p><label for="<?php echo esc_attr($this->get_field_id('layout_selected')); ?>">
+			<?php esc_html_e('Select Layout', PEAW_TEXT_DOMAIN); ?>
+		</label></p>
+		<select id="<?php echo  esc_attr( $this->get_field_id( 'layout_selected' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'layout_selected' )); ?>">
+			<?php 
+			foreach ($layouts_list as $layout => $value) { 
+				if($layout == $layout_selected){
+					$selected = 'selected';
+				}else{
+					$selected = '';
+				}
+			?>
+				<option value="<?php echo esc_attr($layout) ?>" selected="<?php echo $selected; ?>"><?php echo $layouts_list[$layout]['layout_name']; ?></option>
+			<?php } ?>
+		</select>
+
+		<p><label for="<?php echo esc_attr($this->get_field_id('full_type_selected')); ?>">
+			<?php esc_html_e('Select Full Display Type', PEAW_TEXT_DOMAIN); ?>
+		</label></p>
+		<select id="<?php echo  esc_attr( $this->get_field_id( 'full_type_selected' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'full_type_selected' )); ?>">
+				<?php 
+				if($full_type_selected == 'single_page'){
+					$selected = 'selected';
+				}else{
+					$selected = '';
+				}
+				?>
+					<option value="single_page" <?php echo $selected; ?>>Single Post Page</option>
+				<?php 
+				if($full_type_selected == 'modal'){
+					$selected = 'selected';
+				}else{
+					$selected = '';
+				}
+				?>
+					<option value="modal" <?php echo $selected; ?>>Modal Javascript</option>
+		</select>
+
+		
+
+		<p><label for="<?php echo esc_attr($this->get_field_id('font_size')); ?>">
+			<?php esc_html_e('Font Size', PEAW_TEXT_DOMAIN); ?>
+		</label></p>
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'font_size' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'font_size' )); ?>" type="number" min="5" max="50" value="<?php echo esc_attr($font_size); ?>"> Pixels
+
+		<p><label for="<?php echo esc_attr($this->get_field_id('excerpt_length')); ?>">
+			<?php esc_html_e('Excerpt Length', PEAW_TEXT_DOMAIN); ?>
+		</label></p>
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'excerpt_length' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'excerpt_length' )); ?>" type="number" min="30" max="120" value="<?php echo esc_attr($excerpt_length); ?>"> Letters
+
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'read_more_text' )); ?>">
+			<?php esc_attr_e( 'Read More Button Text:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'read_more_text' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'read_more_text' )); ?>" type="text" value="<?php echo esc_attr($read_more_text); ?>">
+		<!--Mutual Form End -->
 	  <?php
 	}
 
@@ -194,6 +251,12 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	public function is_option_selected($selected, $option){
+		if($selected == $option){
+			return "selected='selected'";
 		}
 	}
 }

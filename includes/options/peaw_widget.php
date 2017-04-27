@@ -1,0 +1,19 @@
+<?php
+class Peaw_Widget extends Peaw_Widgets_base{
+	protected $extra_data;
+
+	public $image;
+	public $publish_date;
+	public $category_output;
+	public $post_title;
+	public $call_text;
+	public $post_link;
+
+	public function __set($property, $value){
+		$this->extra_data[$property] = $value;
+	}
+
+	public function __get($property){
+		return $this->extra_data[$property];
+	}
+}

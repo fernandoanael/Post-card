@@ -52,6 +52,9 @@ class Peaw_Admin {
 
 		/*Add Widgets Settings Sub Menu*/
 		add_submenu_page( 'peaw_settings', 'Post Preview Card Widgets Settings', 'Widgets', 'manage_options', 'peaw_settings_widgets', [$this,'peaw_render_settings_widgets_page']);
+
+		/*Add Layout Settings Sub Menu*/
+		add_submenu_page( 'peaw_settings', 'Post Preview Card Layout Settings', 'Layouts', 'manage_options', 'peaw_layout_settings', [$this,'peaw_render_settings_layouts_page']);
 	}
 
 	/*
@@ -71,6 +74,10 @@ class Peaw_Admin {
 		require_once(PEAW_PATH.'admin/partials/peaw-admin-settings-widgets-page.php');
 	}
 
+	/*Render the Layouts settings page*/
+	public function peaw_render_settings_layouts_page(){
+		require_once(PEAW_PATH.'admin/partials/peaw-admin-settings-layouts-page.php');
+	}
 	/*
 		==============================================
 			REGISTER SETTINGS AND SETCIONS callback
@@ -81,6 +88,7 @@ class Peaw_Admin {
 
 		Peaw_General_Settings_Manager::peaw_build_options();
 		Peaw_Widget_Register_Manager::peaw_build_options();
+		Peaw_Layouts_Manager::peaw_build_options();
 
 	}
 }

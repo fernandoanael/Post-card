@@ -58,9 +58,16 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		echo $args['before_widget'];
 		?>
 		<div class="row">
-			<div class="col-xs-12" style="border: 1px solid red;">
+			<div class="col-xs-12 peaw-multiple-posts-container">
 				<?php
-					foreach ($posts as $post) {
+					$count = count($posts);
+					$subCount = 0;
+					foreach ($posts as $post):
+						if($subCount == 3){
+							$count -= $subCount;
+							$subCount = 0;
+						}
+
 						$peaw_widget = new Peaw_Widget();
 						$peaw_widget->post_ID = $post->ID;
 						$peaw_widget->post_title = $post->post_title;
@@ -112,9 +119,17 @@ class PEAW_Multiple_Posts extends WP_Widget{
 							$instance['layout_selected'] = $defaults_layout_list[$categories[0]->term_id];
 						}
 
-						Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+						if($count >= 3){
+							$peaw_widget->width = '32%';
+						}elseif($count == 2){
+							$peaw_widget->width = '45%';
+						}elseif($count == 1){
+							$peaw_widget->width = '80%';
+						}
 
-					}
+						Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+						$subCount++;
+					endforeach;
 				?>
 			</div>
 		</div>

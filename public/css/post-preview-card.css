@@ -91,3 +91,16 @@ span.peaw-info-span{
 	font-size: 15px;
 	color: #a0a0a0;
 }
+.peaw-multiple-posts-container{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+div .card{
+	margin-top: 10px;
+}
+.post-preview-card-featured-image{
+	width: 100%;
+	height: auto;
+	max-height: 300px;
+}

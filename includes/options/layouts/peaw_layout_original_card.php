@@ -13,11 +13,12 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 		echo $args['before_widget'];	
 		$read_more_text = !is_null($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
 		//Render widget
+		$width = !is_null($peaw_widget->width) ? $peaw_widget->width : '32%';
 		
 	?>
-		<div class="card" style="width: 22rem;">
+		<div class="card" style="width: <?php echo $width; ?>;">
 
-			<img src="<?php echo esc_attr($peaw_widget->image); ?>" width="480" height="270">
+			<img src="<?php echo esc_attr($peaw_widget->image); ?>" class="post-preview-card-featured-image">
 			<div class="card-block">
 		  		<p class="card-text">
 		  		<span class="peaw-info-span">

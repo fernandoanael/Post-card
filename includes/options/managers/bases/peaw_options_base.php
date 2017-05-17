@@ -6,6 +6,6 @@
  *
  */
 interface Peaw_Options_Base{
-	public function peaw_get_settings_value($value_name);
-	public function peaw_build_options();
+	public static function peaw_get_settings_value($value_name);
+	public static function peaw_build_options();
 }

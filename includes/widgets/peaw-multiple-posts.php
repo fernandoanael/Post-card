@@ -20,8 +20,8 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		$this->alt_option_name = "peaw_multiple_posts";
 
 		/* Register Styles and Scripts but don't Enqueue. */
-		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+		//wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
+		//wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
 	}
 
 	public function widget($args, $instance){

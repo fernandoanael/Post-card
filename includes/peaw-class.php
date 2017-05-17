@@ -37,9 +37,8 @@ class Peaw_Class{
 	 */
 	private function __construct(){
 
-		/* Register Base Styles and Scripts but don't Enqueue. */
-		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+		add_action( 'wp_enqueue_scripts', [$this,'peaw_register_base_scripts']);
+		
 		/* Initialize widgets, layouts, and extra functionalities*/
 		add_action('widgets_init',array($this,'peaw_add_widgets'));
 		add_action('widgets_init',array($this,'peaw_add_layouts'));
@@ -48,6 +47,15 @@ class Peaw_Class{
 			add_action('manage_posts_custom_column', array($this, 'peaw_show_post_id'), 10, 2 );
 		}
 
+	}
+
+	/*
+	 *	Register Base Style but dont enqueue
+	 */
+
+	public function peaw_register_base_scripts(){
+		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
+		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
 	}
 
 	/*

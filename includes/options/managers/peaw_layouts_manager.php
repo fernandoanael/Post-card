@@ -13,7 +13,7 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 		}
 		return self::$instance;
 	}
-	public function peaw_get_settings_value($value_name){
+	public static function peaw_get_settings_value($value_name){
 		if($value_name == 'layouts_list'){
 			return self::peaw_get_layouts_list();
 		}elseif($value_name == 'defaults_layout_list'){
@@ -23,7 +23,7 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 		}
 	}
 
-	public function peaw_build_options(){
+	public static function peaw_build_options(){
 		$categories = get_categories();
 		self::$categories_list = $categories;
 		add_settings_section( 'peaw-layout-settings', 'Layouts', 'Peaw_Layouts_Manager::peaw_render_settings_layout_section', 'peaw_settings_layout');
@@ -37,14 +37,14 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 
 	}
 
-	public function peaw_render_settings_layout_section(){
+	public static function peaw_render_settings_layout_section(){
 		echo 'Select the default layout for each category';
 	}
-	public function peaw_render_settings_helper_section(){
+	public static function peaw_render_settings_helper_section(){
 		echo 'Activate or deactivate the layout Helper';
 	}
 
-	public function peaw_render_settings_layout_select_field(array $category){
+	public static function peaw_render_settings_layout_select_field(array $category){
 		$category = $category[0];
 		$layout_selected = esc_attr(get_option( 'peaw_selected_layout_'.$category->term_id));
 		$layouts_list = self::peaw_get_layouts_list();
@@ -64,13 +64,13 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 	<?php
 	}
 
-	public function peaw_render_settings_layout_activate_helper(){
+	public static function peaw_render_settings_layout_activate_helper(){
 		$checked = checked('true', esc_attr(get_option('peaw_activate_layout_helper')), false);
 		echo '<input type="checkbox" name="peaw_activate_layout_helper" value="true"'.$checked.' /> Activate if you want the helper';
 	}
 
 
-	public function peaw_layout_register(array $layouts_list){
+	public static function peaw_layout_register(array $layouts_list){
 		foreach($layouts_list as $layout_ID => $layout_info){
 			foreach ($layout_info as $layout_info_key => $layout_info_value) {
 				self::$layouts_list[$layout_ID][$layout_info_key] = $layout_info_value;
@@ -78,14 +78,14 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 		}
 	}
 
-	public function peaw_layout_render($args,$instance, Peaw_Widgets_Base $peaw_widget){
+	public static function peaw_layout_render($args,$instance, Peaw_Widgets_Base $peaw_widget){
 		$layout_ID = $instance['layout_selected'];
 		//$layout_ID = 'original_layout';
 		$peaw_layout_class = (string) self::$layouts_list[$layout_ID]['layout_class_name'];
 		new $peaw_layout_class($args,$instance,$peaw_widget);
 	}
 
-	public function peaw_get_layouts_list(){
+	public static function peaw_get_layouts_list(){
 		foreach(self::$layouts_list as $layout_ID => $layout_info){
 			$layouts_list[$layout_ID] = $layout_info;	
 		}

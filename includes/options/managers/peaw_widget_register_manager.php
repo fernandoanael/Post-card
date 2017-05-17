@@ -27,7 +27,7 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		return self::$instance;
 	}
 
-	public function peaw_build_options(){
+	public static function peaw_build_options(){
 		$widget_list = self::$widget_list;
 		add_settings_section( 'peaw-general-widgets-settings', 'Widgets general settings', 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_section_general', 'peaw_settings_widgets');
 		foreach ($widget_list as $widget) {
@@ -36,25 +36,25 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		}
 	}
 
-	public function peaw_render_settings_widgets_activate_field(array $widget){
+	public static function peaw_render_settings_widgets_activate_field(array $widget){
 		$widget = $widget[0];
 		$activate_value = esc_attr(get_option('peaw_activate_'.$widget['option_name']));
 		$checked = checked('true',$activate_value, false);
 		echo'<input type="checkbox" name="peaw_activate_'.$widget['option_name'].'" value="true" '.$checked.' /> Uncheck this option if you do not want this widget registered within your wordpress';
 	}
 
-	public function peaw_render_settings_widgets_section_general(){
+	public static function peaw_render_settings_widgets_section_general(){
 		echo 'Activate the widgets you want to be added to your wordpress widgets list';
 	}
 
-	public function peaw_register_widget_list(array $widget_list){
+	public static function peaw_register_widget_list(array $widget_list){
 		self::$widget_list = $widget_list;
 		foreach($widget_list as $widget){;
 			self::$widgets_options_name[] .= 'peaw_activate_'.$widget['option_name'];
 		}
 	}
 
-	public function peaw_register_approved_widgets(array $widget_list = NULL){
+	public static function peaw_register_approved_widgets(array $widget_list = NULL){
 		if(self::$widget_list == null){
 			if($widget_list !== null){
 				self::peaw_register_widget_list($widget_list);
@@ -72,7 +72,7 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		
 	}
 
-	public function peaw_get_settings_value($value_name){
+	public static function peaw_get_settings_value($value_name){
 		if(in_array($value_name, self::$widgets_options_name)){
 			$option_value = esc_attr(get_option($value_name));
 			return $option_value;

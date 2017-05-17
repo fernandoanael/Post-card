@@ -1,6 +1,6 @@
 <?php
 class Peaw_Widgets_Form_Manager implements Peaw_Widgets_Form_Base{
-	public function peaw_render_base_form(array $instance){
+	public static function peaw_render_base_form(array $instance){
 
 	}
 

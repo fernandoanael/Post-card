@@ -104,3 +104,18 @@ div .card{
 	height: auto;
 	max-height: 300px;
 }
+
+.peaw-load-more-container{
+	margin: 0 auto;
+}
+.peaw-load-more-button{
+	font-size: 30px;
+	color: grey;
+}
+.peaw-load-more-button:hover{
+	cursor: pointer;
+}
+
+.peaw-ajax-load-hidden{
+	display: none;
+}

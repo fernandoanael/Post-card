@@ -51,3 +51,4 @@ require_once(PEAW_PATH . 'includes/peaw-class.php');
 
 /* Loads the Peaw_admin Class */
 require_once(PEAW_PATH . 'admin/peaw-admin-class.php');
+

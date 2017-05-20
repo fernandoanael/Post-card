@@ -7,6 +7,9 @@
  * @license     GPLv3
  */
 class PEAW_Multiple_Posts extends WP_Widget{
+
+	
+
 	public function __construct(){
 		$base_id 			= "PEAW_Multiple_Posts";
 		$widget_name 		= 'Post Preview Card:' . __(' Multiple Posts' , PEAW_TEXT_DOMAIN);
@@ -19,14 +22,22 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		parent::__construct($base_id,$widget_name,$sidebar_options);
 		$this->alt_option_name = "peaw_multiple_posts";
 
-		/* Register Styles and Scripts but don't Enqueue. */
-		//wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		//wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+		/*Register the ajax loader javascript*/
+		wp_register_script( 'peaw_multiple_posts_ajax_loader', PEAW_URI.'public/js/multiple-posts-ajax-loader.js', [], '', true );
 	}
 
 	public function widget($args, $instance){
+		
+
+		/*
+		 *	Getting the default layout for each category
+		 */
 		$defaults_layout_list = Peaw_Layouts_Manager::peaw_get_settings_value('defaults_layout_list');
 
+
+		/*
+		 *	Check which layout to use
+		 */
 		if($instance['category_selected'] == 'all' ){
 			$category = '';//This case each post has a layout
 			if($instance['layout_selected'] !== null){
@@ -43,25 +54,61 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			}
 		}
 
+		//See the excerpt Length
+		$excerpt_length = !is_null($instance['excerpt_length']) ? $instance['excerpt_length'] : 85;
+
+		/*
+		 *	Check if I'll need the ajax loader or not
+		 */
+		if(!is_null($instance['posts_first_shown'])){
+			if($instance['posts_first_shown'] >= $instance['number_of_posts']){
+				$number_of_posts = $instance['number_of_posts'] != 999 ? $instance['number_of_posts'] : '';
+				$loader = false;
+			}else{
+				$number_of_posts = $instance['posts_first_shown'];
+				$instance['number_of_posts'] = $instance['number_of_posts'] != 999 ? $instance['number_of_posts'] : wp_count_posts()->publish;
+				$loader = true;
+				
+				//Making sure Jquery is enqueued and enqueue the ajax loader				
+				wp_enqueue_script('jquery');
+				wp_enqueue_script('peaw_multiple_posts_ajax_loader');
+
+				$peawPHPInfo = [
+					'pluginUri' 	=> PEAW_URI,
+					'responserPHPUrl'=> admin_url('/admin-ajax.php'),
+					'instance'		=> $instance,
+					'args'			=> $args,
+				];
+
+				wp_localize_script('peaw_multiple_posts_ajax_loader', 'peawPHPInfo', $peawPHPInfo);
+			}
+		}else{
+			$number_of_posts = $instance['number_of_posts'] != 999 ? $instance['number_of_posts'] : '';
+		}
+
+
+		/*
+		 *	After all the checkUp get the posts
+		 */
 		$posts = get_posts(
 			array(
-				'posts_per_page'   => $instance['number_of_posts'],
+				'posts_per_page'   => $number_of_posts,
 				'category'         => $category
 			)
 		);
 
-		$excerpt_length = !is_null($instance['excerpt_length']) ? $instance['excerpt_length'] : 85;
-
-
-		
-
+		/*
+		 *	Time to render loop
+		 */
 		echo $args['before_widget'];
 		?>
 		<div class="row">
-			<div class="col-xs-12 peaw-multiple-posts-container">
+			<div class="col-xs-12 peaw-multiple-posts-container" id="peaw-multiple-posts-container">
 				<?php
+				
 					$count = count($posts);
 					$subCount = 0;
+					$displayed = 1;
 					foreach ($posts as $post):
 						if($subCount == 3){
 							$count -= $subCount;
@@ -127,14 +174,29 @@ class PEAW_Multiple_Posts extends WP_Widget{
 							$peaw_widget->width = '80%';
 						}
 
+						/*Use the Layout Manager class to render the widget according to the specified settings*/
 						Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+
+				?>
+					<p style="visibility: hidden;" class="widget-displayed-counter" name="<?php echo $displayed; ?>"></p>
+				<?php
 						$subCount++;
+						$displayed++;
 					endforeach;
 				?>
 			</div>
 		</div>
+		<?php 
+			if($loader): 
+		?>
+				<div class="row">
+					<div class="col-xs-12 peaw-load-more-container">
+						<p class="dashicons dashicons-image-rotate peaw-load-more-button" id="peaw-trigger-loader"></p>
+					</div>
+				</div>
 		<?php
-		echo $args['after_widget'];
+			endif;
+			echo $args['after_widget'];
 	}
 
 	public function update($new_instance, $old_instance){
@@ -147,7 +209,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		if(!empty($new_instance['posts_first_shown']) && is_int((int)$new_instance['posts_first_shown'])){
 			$instance['posts_first_shown'] = $new_instance['posts_first_shown'];
 		}else{
-			$instance['posts_first_shown'] = null;
+			$instance['posts_first_shown'] = $instance['number_of_posts'];
 		}
 
 		if(!empty($new_instance['category_selected']) && $new_instance['category_selected'] !== 'all'){
@@ -178,7 +240,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		if(!empty($new_instance['excerpt_length']) && is_int((int)$new_instance['excerpt_length'])){
 			$instance['excerpt_length'] = $new_instance['excerpt_length'];
 		}else{
-			$instance['excerpt_length'] = null;
+			$instance['excerpt_length'] = 85;
 		}
 
 		if(!empty($new_instance['read_more_text'])){

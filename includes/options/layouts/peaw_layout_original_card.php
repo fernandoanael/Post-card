@@ -14,9 +14,15 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 		$read_more_text = !is_null($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
 		//Render widget
 		$width = !is_null($peaw_widget->width) ? $peaw_widget->width : '32%';
+
+		if($peaw_widget->additional_css_names !== null){
+			$additional_css_names = $peaw_widget->additional_css_names;
+		}else{
+			$additional_css_names = '';
+		}
 		
 	?>
-		<div class="card" style="width: <?php echo $width; ?>;">
+		<div class="card peaw-original-layout <?php echo $additional_css_names ?>" style="width: <?php echo $width; ?>;">
 
 			<img src="<?php echo esc_attr($peaw_widget->image); ?>" class="post-preview-card-featured-image">
 			<div class="card-block">

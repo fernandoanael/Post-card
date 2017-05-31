@@ -92,7 +92,8 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			$peaw_widget->post_link = "#";
 			$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png';
 		}
-		Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+		/*Render the widget*/
+		Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
 	}
 
 	public function update($new_instance, $old_instance){

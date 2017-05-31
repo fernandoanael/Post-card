@@ -11,5 +11,5 @@
  */
 interface Peaw_Layouts_Base{
 	/*Unique mandatory function is to render a layout*/
-	public function peaw_layout_render(array $args,array $instance, Peaw_Widgets_Base $peaw_widget);
+	public function peaw_layout_render(Peaw_Widgets_Base $peaw_widget);
 }

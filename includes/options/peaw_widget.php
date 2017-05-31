@@ -9,8 +9,10 @@
  */
 
 class Peaw_Widget extends Peaw_Widgets_base{
-	protected $extra_data;
+	protected $extra_data = [];
 
+	public $args = [];
+	public $instance = [];
 	public $image;
 	public $publish_date;
 	public $category_output;
@@ -23,6 +25,10 @@ class Peaw_Widget extends Peaw_Widgets_base{
 	}
 
 	public function __get($property){
-		return $this->extra_data[$property];
+		if(in_array($property, $this->extra_data)){
+			return $this->extra_data[$property];
+		}else{
+			return '';
+		}
 	}
 }

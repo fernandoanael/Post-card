@@ -176,7 +176,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 						}
 
 						/*Use the Layout Manager class to render the widget according to the specified settings*/
-						Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+						Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
 
 				?>
 					<p style="visibility: hidden;" class="widget-displayed-counter" name="<?php echo $displayed; ?>"></p>

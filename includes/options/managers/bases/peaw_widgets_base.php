@@ -13,6 +13,8 @@ abstract class Peaw_Widgets_Base{
 	protected $extra_data = [];
 
 	/*Mandatory properties*/
+	public $args = [];
+	public $instance = [];
 	public $image;
 	public $publish_date;
 	public $category_output;

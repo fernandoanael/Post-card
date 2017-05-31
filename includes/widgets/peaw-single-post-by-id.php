@@ -70,6 +70,13 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 			}else{
 				$peaw_widget->call_text = $call_text;
 			}
+
+			/*Read more text*/
+			$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
+
+			/*Passes the instance and args to the peaw_widget*/
+			$peaw_widget->instance = $instance;
+			$peaw_widget->args = $args;
 		
 		}else{
 			//Create error message to display as a post card
@@ -79,8 +86,12 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 			$peaw_widget->post_link = "#";
 			$peaw_widget->call_text = __('This can be caused by Invalid ID. Go to the All Posts section in your admin page and Pick a valid ID', PEAW_TEXT_DOMAIN);
 			$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png';
+			$peaw_widget->read_more_text = 'Read More';
+			$peaw_widget->instance = $instance;
+			$peaw_widget->args = $args;
 		}
-		Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+		/*Render Widget using selected layout*/
+		Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
 	}
 
 

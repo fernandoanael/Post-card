@@ -28,11 +28,11 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 	}
 
 	/*Instantiate the layout class of the layout selected*/
-	public static function peaw_layout_render($args,$instance, Peaw_Widgets_Base $peaw_widget){
-		$layout_ID = $instance['layout_selected'];
+	public static function peaw_layout_render(Peaw_Widgets_Base $peaw_widget){
+		$layout_ID = $peaw_widget->instance['layout_selected'];
 		//$layout_ID = 'original_layout';
 		$peaw_layout_class = (string) self::$layouts_list[$layout_ID]['layout_class_name'];
-		new $peaw_layout_class($args,$instance,$peaw_widget);
+		new $peaw_layout_class($peaw_widget);
 	}
 
 	/*Returns the value depending on the value_name */
@@ -54,8 +54,10 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 	 *  Returns the custom options. It builds options depending on the number of categories created 
 	 */
 	public static function peaw_build_options(){
+		/*Layout settings custom fields*/
 		self::peaw_build_section('peaw-layout-settings');
 
+		/*Activate layout helper field*/
 		self::peaw_build_section('peaw-layout-activate-helper');
 	}
 	/*Builds the section taking as parameter the section ID*/
@@ -148,10 +150,12 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 	}
 
 	/*Returns an array with the default layout of each category*/
+	/********ALWAYS RETURNING ORIGINAL LAYOUT, CHANGE AFTER NEW LAYOUTS CREATED*********/
 	private function peaw_get_defaults_layout_list(){
 		$defaults_layout_list = [];
 		$categories = self::$categories_list !== null ? self::$categories_list : get_categories();
 		foreach($categories as $category){
+			//$option = get_option('peaw_selected_layout_'.$category->term_id);
 			$option = 'peaw_selected_layout_'.$category->term_id;
 			if($option !== null | !empty($option) | $option !== false){
 				$defaults_layout_list[$category->term_id] = 'original_layout';

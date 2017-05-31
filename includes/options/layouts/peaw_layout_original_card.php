@@ -9,28 +9,20 @@
  */
 class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
-	public function __construct($args, $instance, Peaw_Widgets_Base $peaw_widget){
-		$this->peaw_layout_render($args,$instance,$peaw_widget);
-	}
-
-	public function peaw_layout_render(array $args, array $instance, Peaw_Widgets_Base $peaw_widget){
+	public function __construct(Peaw_Widgets_Base $peaw_widget){
 		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
 		wp_enqueue_style('bootstrap-v4');
 		wp_enqueue_style('peaw-post-preview-card');
 
-		echo $args['before_widget'];	
-		$read_more_text = !is_null($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
-		//Render widget
-		$width = !is_null($peaw_widget->width) ? $peaw_widget->width : '32%';
+		/*Call renderization*/
+		$this->peaw_layout_render($peaw_widget);
+	}
 
-		if($peaw_widget->additional_css_names !== null){
-			$additional_css_names = $peaw_widget->additional_css_names;
-		}else{
-			$additional_css_names = '';
-		}
-		
+	public function peaw_layout_render(Peaw_Widgets_Base $peaw_widget){
+		/*Start renderization*/
+		echo $peaw_widget->args['before_widget'];
 	?>
-		<div class="card peaw-original-layout <?php echo $additional_css_names ?>" style="width: <?php echo $width; ?>;">
+		<div class="card peaw-original-layout <?php echo $peaw_widget->additional_css_names ?>" style="<?php echo $peaw_widget->additional_style; ?>">
 
 			<img src="<?php echo esc_attr($peaw_widget->image); ?>" class="post-preview-card-featured-image">
 			<div class="card-block">
@@ -42,13 +34,13 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 		  		</p>
 
-			    <h4 class="card-title" style="font-size: <?php echo $instance['font_size']; ?>px;"><?php echo esc_html($peaw_widget->post_title); ?></h4>
+			    <h4 class="card-title" style="font-size: <?php echo $peaw_widget->instance['font_size']; ?>px;"><?php echo esc_html($peaw_widget->post_title); ?></h4>
 
 			    <p class="peaw-call-text"><?php echo esc_html($peaw_widget->call_text); ?></p>
 
 			    <a href="<?php echo esc_attr($peaw_widget->post_link); ?>" class=" peaw-read-more">
 			    
-			    	<?php echo esc_html($read_more_text); ?>
+			    	<?php echo esc_html($peaw_widget->read_more_text); ?>
 
 			    	<span class="peaw-read-more-span">
 
@@ -62,7 +54,7 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 		</div>
 	<?php
-		echo $args['after_widget'];
+		echo $peaw_widget->args['after_widget'];
 	}
  
 }

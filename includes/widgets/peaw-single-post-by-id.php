@@ -74,6 +74,9 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 			/*Read more text*/
 			$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
 
+			/*Font-size*/
+			$peaw_widget->font_size = !is_null($instance['font_size']) ? $instance['font_size'] : '';
+
 			/*Passes the instance and args to the peaw_widget*/
 			$peaw_widget->instance = $instance;
 			$peaw_widget->args = $args;
@@ -87,6 +90,7 @@ class PEAW_Single_Post_By_ID extends WP_Widget{
 			$peaw_widget->call_text = __('This can be caused by Invalid ID. Go to the All Posts section in your admin page and Pick a valid ID', PEAW_TEXT_DOMAIN);
 			$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png';
 			$peaw_widget->read_more_text = 'Read More';
+			$peaw_widget->font_size = '';
 			$peaw_widget->instance = $instance;
 			$peaw_widget->args = $args;
 		}

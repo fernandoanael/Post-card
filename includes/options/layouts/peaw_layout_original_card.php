@@ -34,7 +34,7 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 		  		</p>
 
-			    <h4 class="card-title" style="font-size: <?php echo $peaw_widget->instance['font_size']; ?>px;"><?php echo esc_html($peaw_widget->post_title); ?></h4>
+			    <h4 class="card-title" style="font-size: <?php echo $peaw_widget->font_size; ?>px;"><?php echo esc_html($peaw_widget->post_title); ?></h4>
 
 			    <p class="peaw-call-text"><?php echo esc_html($peaw_widget->call_text); ?></p>
 

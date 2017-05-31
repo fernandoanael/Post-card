@@ -27,6 +27,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 		
 		/* Check if Category is set, not null, really exists and has at least 1 post assigned to it.*/
 		if(isset($instance['category']) && !is_null($instance['category']) && term_exists(get_cat_name($instance['category'])) && $this->peaw_is_cat_empty($instance['category']) == false){
+
 			$category_id 		= $instance['category'];
 			
 			//Set 1 Random post per category 
@@ -79,6 +80,16 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 					$image = PEAW_URI . 'public/images/image-not-found.png'; 
 				}
 				$peaw_widget->image = $image;
+
+				/*Read more text*/
+				$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
+
+				/*Font-size*/
+				$peaw_widget->font_size = !is_null($instance['font_size']) ? $instance['font_size'] : '';
+
+				/*Passes the instance and args to the peaw_widget*/
+				$peaw_widget->instance = $instance;
+				$peaw_widget->args = $args;
 			}
 		
 		/* If Category is not set or null or does not exist or doesn't have any post assigned we create an error message  */
@@ -91,6 +102,10 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 								__('No category', PEAW_TEXT_DOMAIN)."</a>";
 			$peaw_widget->post_link = "#";
 			$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png';
+			$peaw_widget->read_more_text = 'Read More';
+			$peaw_widget->font_size = '';
+			$peaw_widget->instance = $instance;
+			$peaw_widget->args = $args;
 		}
 		/*Render the widget*/
 		Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);

@@ -37,7 +37,7 @@ class Peaw_General_Settings_Manager implements Peaw_Options_Base{
 		}
 	}
 
-	/*	Build Options poinst to another static function
+	/*	Build Options points to another static function
      *	If the build options need to build more than one section of custom options you just make peaw_build_section bigger and not this one
 	 */
 	public static function peaw_build_options(){
@@ -45,7 +45,7 @@ class Peaw_General_Settings_Manager implements Peaw_Options_Base{
 	}
 
 	/*Builds the section taking as parameter the section ID*/
-	public static function peaw_build_section($id){
+	private static function peaw_build_section($id){
 		if($id == 'peaw-general-plugin-settings'){
 			/* Register the settings setcion */
 			add_settings_section( 'peaw-general-plugin-settings', 'Plugin Extra Functionalities and Info', 'Peaw_General_Settings_Manager::peaw_render_settings_general_section_general', 'peaw_settings');

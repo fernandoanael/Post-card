@@ -46,13 +46,23 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 	}
 
 
-	/*Build the custom options depending on the registered widgets*/
+	/*Build the custom options depending on the registered widgets
+	 *	Build Options points to another static function
+     *	If the build options need to build more than one section of custom options you just make peaw_build_section bigger and not this one
+	 */
 	public static function peaw_build_options(){
-		$widget_list = self::$widget_list;
-		add_settings_section( 'peaw-general-widgets-settings', 'Widgets general settings', 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_section_general', 'peaw_settings_widgets');
-		foreach ($widget_list as $widget) {
-			add_settings_field( 'peaw-activate-'.$widget['option_name'], $widget['option_name'], 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_activate_field', 'peaw_settings_widgets', 'peaw-general-widgets-settings', [$widget]);
-			register_setting( 'peaw-settings-widgets-group', 'peaw_activate_'.$widget['option_name']);
+		self::peaw_build_section('peaw-general-widgets-settings');
+	}
+
+	/*Builds the section taking as parameter the section ID*/
+	private static function peaw_build_section($id){
+		if($id == "peaw-general-widgets-settings"){
+			$widget_list = self::$widget_list;
+			add_settings_section( 'peaw-general-widgets-settings', 'Widgets general settings', 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_section_general', 'peaw_settings_widgets');
+			foreach ($widget_list as $widget) {
+				add_settings_field( 'peaw-activate-'.$widget['option_name'], $widget['option_name'], 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_activate_field', 'peaw_settings_widgets', 'peaw-general-widgets-settings', [$widget]);
+				register_setting( 'peaw-settings-widgets-group', 'peaw_activate_'.$widget['option_name']);
+			}
 		}
 	}
 

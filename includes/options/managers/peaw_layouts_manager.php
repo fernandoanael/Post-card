@@ -49,19 +49,30 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 		}
 	}
 
-	/*Returns the custom options. It builds options depending on the number of categories created */
+	/*	Build Options points to another static function
+     *	If the build options need to build more than one section of custom options you just make peaw_build_section bigger and not this one
+	 *  Returns the custom options. It builds options depending on the number of categories created 
+	 */
 	public static function peaw_build_options(){
-		$categories = get_categories();
-		self::$categories_list = $categories;
-		add_settings_section( 'peaw-layout-settings', 'Layouts', 'Peaw_Layouts_Manager::peaw_render_settings_layout_section', 'peaw_settings_layout');
-		foreach ($categories as $category) {
-			add_settings_field( 'peaw-selected-layout-'.$category->term_id, $category->name, 'Peaw_Layouts_Manager::peaw_render_settings_layout_select_field', 'peaw_settings_layout', 'peaw-layout-settings', [$category] );
-			register_setting('peaw-settings-layout-group','peaw_selected_layout_'.$category->term_id);
-		}
-		add_settings_section( 'peaw-layout-activate-helper', 'Helper', 'Peaw_Layouts_Manager::peaw_render_settings_helper_section', 'peaw_settings_layout');
-		add_settings_field( 'peaw-activate-layout-helper', 'Layout Helper', 'Peaw_Layouts_Manager::peaw_render_settings_layout_activate_helper', 'peaw_settings_layout', 'peaw-layout-activate-helper');
-		register_setting( 'peaw-settings-layout-group', 'peaw_activate_layout_helper');
+		self::peaw_build_section('peaw-layout-settings');
 
+		self::peaw_build_section('peaw-layout-activate-helper');
+	}
+	/*Builds the section taking as parameter the section ID*/
+	private static function peaw_build_section($id){
+		if($id == 'peaw-layout-settings'){
+			$categories = get_categories();
+			self::$categories_list = $categories;
+			add_settings_section( 'peaw-layout-settings', 'Layouts', 'Peaw_Layouts_Manager::peaw_render_settings_layout_section', 'peaw_settings_layout');
+			foreach ($categories as $category) {
+				add_settings_field( 'peaw-selected-layout-'.$category->term_id, $category->name, 'Peaw_Layouts_Manager::peaw_render_settings_layout_select_field', 'peaw_settings_layout', 'peaw-layout-settings', [$category] );
+				register_setting('peaw-settings-layout-group','peaw_selected_layout_'.$category->term_id);
+			}
+		} elseif($id == 'peaw-layout-activate-helper'){
+			add_settings_section( 'peaw-layout-activate-helper', 'Helper', 'Peaw_Layouts_Manager::peaw_render_settings_helper_section', 'peaw_settings_layout');
+			add_settings_field( 'peaw-activate-layout-helper', 'Layout Helper', 'Peaw_Layouts_Manager::peaw_render_settings_layout_activate_helper', 'peaw_settings_layout', 'peaw-layout-activate-helper');
+			register_setting( 'peaw-settings-layout-group', 'peaw_activate_layout_helper');
+		}
 	}
 
 	/*

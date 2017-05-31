@@ -9,8 +9,6 @@
  */
 class PEAW_Multiple_Posts extends WP_Widget{
 
-	
-
 	public function __construct(){
 		$base_id 			= "PEAW_Multiple_Posts";
 		$widget_name 		= 'Post Preview Card:' . __(' Multiple Posts' , PEAW_TEXT_DOMAIN);
@@ -106,7 +104,6 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		<div class="row">
 			<div class="col-xs-12 peaw-multiple-posts-container" id="peaw-multiple-posts-container">
 				<?php
-				
 					$count = count($posts);
 					$subCount = 0;
 					$displayed = 1;
@@ -167,13 +164,24 @@ class PEAW_Multiple_Posts extends WP_Widget{
 							$instance['layout_selected'] = $defaults_layout_list[$categories[0]->term_id];
 						}
 
+						$peaw_widget->additional_css_names = '';
 						if($count >= 3){
-							$peaw_widget->width = '32%';
+							$peaw_widget->additional_css_names = 'col-md-3';
 						}elseif($count == 2){
-							$peaw_widget->width = '45%';
+							$peaw_widget->additional_css_names = 'col-md-5';
 						}elseif($count == 1){
-							$peaw_widget->width = '80%';
+							$peaw_widget->additional_css_names = 'col-md-10';
 						}
+
+						/*Read more text*/
+						$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
+
+						/*Font-size*/
+						$peaw_widget->font_size = !is_null($instance['font_size']) ? $instance['font_size'] : '';
+
+						/*Passes the instance and args to the peaw_widget*/
+						$peaw_widget->instance = $instance;
+						$peaw_widget->args = $args;
 
 						/*Use the Layout Manager class to render the widget according to the specified settings*/
 						Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);

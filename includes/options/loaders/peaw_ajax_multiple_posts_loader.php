@@ -1,4 +1,12 @@
 <?php
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.
+ */
 	function peaw_ajax_loader(){
 		/*Starts by getting all the vars*/
 		$instance 	= $_POST['instance'];

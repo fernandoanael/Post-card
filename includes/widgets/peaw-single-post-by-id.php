@@ -1,10 +1,11 @@
 <?php
 /**
- * Post Card
+ * Post Preview Card
  *
- * @package     Post Card
+ * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
+ * @version 	2.0.0
  */
 class PEAW_Single_Post_By_ID extends WP_Widget{
 	public function __construct(){

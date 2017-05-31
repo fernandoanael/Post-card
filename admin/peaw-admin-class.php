@@ -5,9 +5,11 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
+ * @version 	2.0.0
  */
+
 /*
- *	Comments
+ *	This class build the custom options and points the admin page templates for the Post Preview Card plugin. 
  */
 class Peaw_Admin {
 	/*
@@ -84,12 +86,18 @@ class Peaw_Admin {
 		==============================================
 	*/
 
+	/*Add all the custom settings using the PEAW Settings*/
 	public function peaw_custom_settings(){
-
+		/*Build custom options for the General Settings Menu*/
 		Peaw_General_Settings_Manager::peaw_build_options();
-		Peaw_Widget_Register_Manager::peaw_build_options();
-		Peaw_Layouts_Manager::peaw_build_options();
 
+		/*Build custom options depending the number of registered Peaw Widgets*/
+		Peaw_Widget_Register_Manager::peaw_build_options();
+
+		/*Build custom options depending on the Peaw layouts registered.*/
+		Peaw_Layouts_Manager::peaw_build_options();
 	}
 }
+
+/*Get instance of the Peaw Admin class, Singleton Factory used*/
 add_action('init', array('Peaw_Admin','get_instance'));

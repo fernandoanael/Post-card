@@ -1,4 +1,13 @@
 <?php
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.
+ */
+
 class Peaw_Widget extends Peaw_Widgets_base{
 	protected $extra_data;
 

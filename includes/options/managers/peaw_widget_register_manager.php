@@ -1,5 +1,12 @@
 <?php
-/*
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.0
+ *
  *	Main functionalities:
  *		-> Save list of all Peaw Widgets
  *		-> Register to WP activated widgets only
@@ -13,7 +20,7 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 	/*Contains the static object*/
 	private static $instance;
 
-	/*Registerde widget list*/
+	/*Registered widget list*/
 	private static $widget_list;
 
 	/* Options name of each widget list */
@@ -27,6 +34,19 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		return self::$instance;
 	}
 
+	/*return the value if value_name exist*/
+	public static function peaw_get_settings_value($value_name){
+		$value_list = self::$widgets_options_name;
+		if(in_array($value_name, $value_list)){
+			$option_value = esc_attr(get_option($value_name));
+			return $option_value;
+		}else{
+			return false;
+		}
+	}
+
+
+	/*Build the custom options depending on the registered widgets*/
 	public static function peaw_build_options(){
 		$widget_list = self::$widget_list;
 		add_settings_section( 'peaw-general-widgets-settings', 'Widgets general settings', 'Peaw_Widget_Register_Manager::peaw_render_settings_widgets_section_general', 'peaw_settings_widgets');
@@ -36,6 +56,22 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		}
 	}
 
+	/*
+	 *	==========================================
+	 *		RENDER SETTINGS SECTION callbacks
+	 *	==========================================
+	 */
+	/*widgets general section text*/
+	public static function peaw_render_settings_widgets_section_general(){
+		echo 'Activate the widgets you want to be added to your wordpress widgets list';
+	}
+
+	/*
+	 *	================================
+	 *		SETTINGS FIELD callbacks
+	 *	================================
+	 */
+	/*Render checkbox of the activate widget*/
 	public static function peaw_render_settings_widgets_activate_field(array $widget){
 		$widget = $widget[0];
 		$activate_value = esc_attr(get_option('peaw_activate_'.$widget['option_name']));
@@ -43,10 +79,13 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		echo'<input type="checkbox" name="peaw_activate_'.$widget['option_name'].'" value="true" '.$checked.' /> Uncheck this option if you do not want this widget registered within your wordpress';
 	}
 
-	public static function peaw_render_settings_widgets_section_general(){
-		echo 'Activate the widgets you want to be added to your wordpress widgets list';
-	}
+	/*
+	 *	================================
+	 *		Other functionalities
+	 *	================================
+	 */
 
+	/*Register the widget list in the plugin even if not activated*/
 	public static function peaw_register_widget_list(array $widget_list){
 		self::$widget_list = $widget_list;
 		foreach($widget_list as $widget){;
@@ -54,6 +93,7 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 		}
 	}
 
+	/*Register in Wordpress only the Peaw registered widgets*/
 	public static function peaw_register_approved_widgets(array $widget_list = NULL){
 		if(self::$widget_list == null){
 			if($widget_list !== null){
@@ -70,15 +110,6 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 			}
 		}
 		
-	}
-
-	public static function peaw_get_settings_value($value_name){
-		if(in_array($value_name, self::$widgets_options_name)){
-			$option_value = esc_attr(get_option($value_name));
-			return $option_value;
-		}else{
-			return false;
-		}
 	}
 
 }

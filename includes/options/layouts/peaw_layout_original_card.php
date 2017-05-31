@@ -1,4 +1,12 @@
 <?php
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.0
+ */
 class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 	public function __construct($args, $instance, Peaw_Widgets_Base $peaw_widget){

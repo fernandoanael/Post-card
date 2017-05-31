@@ -1,5 +1,12 @@
 <?php
-/*
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.0
+ *
  *	Main functionalities:
  *		Display optional Functionalities and plugin Info
  *			public function peaw_get_settings_value();
@@ -17,6 +24,9 @@ class Peaw_General_Settings_Manager implements Peaw_Options_Base{
 		return self::$instance;
 	}
 
+	/*	Static getter function
+	 *		@return the value of the value_name, checks first if it is a valid value_name if not return false
+	 */
 	public static function peaw_get_settings_value($value_name){
 		$value_list = ['peaw_show_post_id'];
 		if(in_array($value_name, $value_list)){
@@ -27,10 +37,14 @@ class Peaw_General_Settings_Manager implements Peaw_Options_Base{
 		}
 	}
 
+	/*	Build Options poinst to another static function
+     *	If the build options need to build more than one section of custom options you just make peaw_build_section bigger and not this one
+	 */
 	public static function peaw_build_options(){
 		self::peaw_build_section('peaw-general-plugin-settings');
 	}
 
+	/*Builds the section taking as parameter the section ID*/
 	public static function peaw_build_section($id){
 		if($id == 'peaw-general-plugin-settings'){
 			/* Register the settings setcion */
@@ -45,20 +59,22 @@ class Peaw_General_Settings_Manager implements Peaw_Options_Base{
 	}
 
 	/*
-		==========================================
-			RENDER SETTINGS SECTION callbacks
-		==========================================
-	*/
-
+	 *	==========================================
+	 *		RENDER SETTINGS SECTION callbacks
+	 *	==========================================
+	 */
+	/*Render the text for the section*/
 	public static function  peaw_render_settings_general_section_general(){
 		echo 'Change the way Post Preview Card should behave within your wordpress site. These are optional options that won\'t affect the functionality of the plugin.';
 	}
 
 	/*
-		=================================
-			SETTINGS FIELD callbacks
-		=================================
-	*/
+	 *	=================================
+	 *		SETTINGS FIELD callbacks
+	 *	=================================
+	 *
+	 */
+	/*Render the custom option*/
 	public static function peaw_render_settings_general_show_post_id_field(){
 		$show_post_id_value = esc_attr(get_option('peaw_show_post_id'));
 		$checked = checked('true', $show_post_id_value, false);

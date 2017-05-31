@@ -50,6 +50,7 @@ class Peaw_Class{
 			add_action('manage_posts_custom_column', array($this, 'peaw_show_post_id'), 10, 2 );
 		}
 
+		/* SPECIAL ATTENTION FOR BETTER USAGE IN THIS */
 		add_action( 'wp_ajax_peaw_ajax_loader', 'peaw_ajax_loader' );
 		add_action( 'wp_ajax_nopriv_peaw_ajax_loader', 'peaw_ajax_loader');
 

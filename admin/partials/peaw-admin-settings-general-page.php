@@ -1,3 +1,13 @@
+<?php
+/**
+ * Post Preview Card
+ *
+ * @package     Post Preview Card
+ * @author      Fernando Cabral
+ * @license     GPLv3
+ * @version 	2.0.0
+ */
+?>
 <h1>Post Preview Card General Settings</h1>
 <?php settings_errors(); ?>
 <form method="post" action="options.php">

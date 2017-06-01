@@ -5,10 +5,9 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.
+ * @version 	2.0.0
  */
 	function peaw_ajax_loader(){
-		echo 'RESPOSTA';
 		/*Starts by getting all the vars*/
 		$instance 	= $_POST['instance'];
 		$args		= $_POST['args'];
@@ -117,18 +116,31 @@
 				$instance['layout_selected'] = $defaults_layout_list[$categories[0]->term_id];
 			}
 
+			$peaw_widget->additional_css_names = '';
 			if($count >= 3){
-				$peaw_widget->width = '32%';
+				$peaw_widget->additional_css_names = ' col-md-3 ';
 			}elseif($count == 2){
-				$peaw_widget->width = '45%';
+				$peaw_widget->additional_css_names = ' col-md-5 ';
 			}elseif($count == 1){
-				$peaw_widget->width = '80%';
+				$peaw_widget->additional_css_names = ' col-md-10 ';
 			}
+			
+			$peaw_widget->additional_css_names .= ' peaw-ajax-load-hidden ';
+			
+			/*Read more text*/
+			$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
 
-			$peaw_widget->additional_css_names = 'peaw-ajax-load-hidden';
+			/*Font-size*/
+			$peaw_widget->font_size = !is_null($instance['font_size']) ? $instance['font_size'] : '';
+
+			/*Passes the instance and args to the peaw_widget*/
+			$peaw_widget->instance = $instance;
+			$peaw_widget->args = $args;
+
+
 
 			/*Use the Layout Manager class to render the widget according to the specified settings*/
-			Peaw_Layouts_Manager::peaw_layout_render($args,$instance,$peaw_widget);
+			Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
 			echo '<p style="visibility: hidden;" class="widget-displayed-counter" name="'.$displayed.'"></p>';
 
 			$subCount++;

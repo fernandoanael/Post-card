@@ -67,6 +67,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			}else{
 				$number_of_posts = $instance['posts_first_shown'];
 				$instance['number_of_posts'] = $instance['number_of_posts'] != 999 ? $instance['number_of_posts'] : wp_count_posts()->publish;
+
 				$loader = true;
 				
 				//Making sure Jquery is enqueued and enqueue the ajax loader				
@@ -216,6 +217,11 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			$instance['number_of_posts'] = '3';
 		}
 
+		if($instance['number_of_posts'] > wp_count_posts()->publish){
+			$instance['number_of_posts'] = wp_count_posts()->publish;
+		}
+
+
 		if(!empty($new_instance['posts_first_shown']) && is_int((int)$new_instance['posts_first_shown'])){
 			$instance['posts_first_shown'] = $new_instance['posts_first_shown'];
 		}else{
@@ -279,12 +285,12 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		<p><label for="<?php echo esc_attr($this->get_field_id('number_of_posts')); ?>">
 			<?php esc_html_e('Number of Posts', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
-		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'number_of_posts' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'number_of_posts' )); ?>" type="number" min="5" max="50" value="<?php echo esc_attr($number_of_posts); ?>">
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'number_of_posts' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'number_of_posts' )); ?>" type="number" value="<?php echo esc_attr($number_of_posts); ?>">
 
 		<p><label for="<?php echo esc_attr($this->get_field_id('posts_first_shown')); ?>">
 			<?php esc_html_e('Number of posts firstly displayed', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
-		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'posts_first_shown' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'posts_first_shown' )); ?>" type="number" min="5" max="50" value="<?php echo esc_attr($posts_first_shown); ?>">
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'posts_first_shown' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'posts_first_shown' )); ?>" type="number" value="<?php echo esc_attr($posts_first_shown); ?>">
 
 
 		<p><label for="<?php echo esc_attr($this->get_field_id('category_selected')); ?>">

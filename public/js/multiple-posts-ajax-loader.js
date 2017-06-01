@@ -19,6 +19,7 @@ jQuery('#peaw-trigger-loader').on('click', function(btnLoader){
 			postsDisplayed : postsDisplayed
 		}
 	}).done(function(response){
+		console.log(response);
 		//console.log(totalToDisplay);
 		jQuery('#peaw-multiple-posts-container').append(response);
 		var widgets = jQuery('.peaw-original-layout');

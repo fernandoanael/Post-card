@@ -25,10 +25,10 @@ class Peaw_Widget extends Peaw_Widgets_base{
 	}
 
 	public function __get($property){
-		if(in_array($property, $this->extra_data)){
-			return $this->extra_data[$property];
-		}else{
+		if($this->extra_data[$property] == NULL){
 			return '';
+		}else{
+			return $this->extra_data[$property];
 		}
 	}
 }

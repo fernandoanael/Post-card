@@ -7,9 +7,6 @@
  * @license     GPLv3
  */
 class Peaw_Class{
-	public function peaw_ajax_loader(){
-		echo "Hi";
-	}
 	/*
 	 *	A reference of the instance of the Peaw_Class class.
 	 */
@@ -50,12 +47,19 @@ class Peaw_Class{
 			add_action('manage_posts_custom_column', array($this, 'peaw_show_post_id'), 10, 2 );
 		}
 
-		/* SPECIAL ATTENTION FOR BETTER USAGE IN THIS */
-		add_action( 'wp_ajax_peaw_ajax_loader', 'peaw_ajax_loader' );
-		add_action( 'wp_ajax_nopriv_peaw_ajax_loader', 'peaw_ajax_loader');
+		/*Ajax_list  containing the url and the actions names*/
+		$args = [
+			'peaw_widget_multiple_posts_loader'	=>	[
+				'ajax_file_url'		=>	PEAW_PATH . 'includes/options/loaders/peaw_ajax_multiple_posts_loader.php',
+				'ajax_functions_name'=>	['peaw_ajax_loader'],
+			],
+		];
 
-		/*Loads the AJAX multiple-Post Responser. Should see if heres the real best place for it after*/
-		require_once(PEAW_PATH . 'includes/options/loaders/peaw_ajax_multiple_posts_loader.php');
+		/*Register the new ajax action*/
+		Peaw_Ajax_Register_Manager::peaw_register_ajax($args);
+
+		/*Load the Ajax files and the actions*/
+		Peaw_Ajax_Register_Manager::peaw_load_all_registered_ajax();
 
 	}
 

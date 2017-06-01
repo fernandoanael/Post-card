@@ -8,6 +8,7 @@
  * @version 	2.0.
  */
 	function peaw_ajax_loader(){
+		echo 'RESPOSTA';
 		/*Starts by getting all the vars*/
 		$instance 	= $_POST['instance'];
 		$args		= $_POST['args'];

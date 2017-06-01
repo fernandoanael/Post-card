@@ -23,6 +23,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 
 		/*Register the ajax loader javascript*/
 		wp_register_script( 'peaw_multiple_posts_ajax_loader', PEAW_URI.'public/js/multiple-posts-ajax-loader.js', [], '', true );
+
 	}
 
 	public function widget($args, $instance){
@@ -175,7 +176,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 
 						/*Read more text*/
 						$peaw_widget->read_more_text = !empty($instance['read_more_text']) ? $instance['read_more_text'] : 'Read More';
-
+	
 						/*Font-size*/
 						$peaw_widget->font_size = !is_null($instance['font_size']) ? $instance['font_size'] : '';
 

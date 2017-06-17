@@ -6,13 +6,14 @@ Post Card -> https://tinyurl.com/m9hxqgl
 
 ## Description
 
-This plugin installs 2 new widgets that preview a post in card shape. It is perfect for Page Builders like [Elementor](https://wordpress.org/plugins/elementor/) 
-This page builders sometimes lack in functionalities to dynamicaly preview a post wherever you want. If you feel this too, this plugin is perfect for you as it is going to add 2 widgets:
+This plugin installs 3 new widgets that preview a post in card shape. It is perfect for Page Builders like [Elementor](https://wordpress.org/plugins/elementor/) 
+This page builders sometimes lack in functionalities to dynamicaly preview a post wherever you want. If you feel this too, this plugin is perfect for you as it is going to add 3 widgets:
 * Single Post by ID: This widget preview the post with the ID you inserted. 
 * Random Post by Category: This widget preview a random post using the category you inserted.
-One additional functionality this plugin does is adding a 'Post Id' column to your 'All Posts' section on the admin panel, so you can easily pick the post id you wish. 
+One additional functionality this plugin does is adding a 'Post Id' column to your 'All Posts' section on the admin panel, so you can easily pick the post id you wish.
+* Multiple Posts: UNDER DEVELOPMENT 
 
-### Beatiful Layout
+### Beatiful Layout (will change)
 Both widgets have the same layout that consists:
 * Thumbnail of the featured image. If you don't have one it is going to display a default image so we Encourage you to always add a Featured image for the posts you want to be shown.
 * Publish date and Category.
@@ -22,7 +23,7 @@ Both widgets have the same layout that consists:
 
 More layout options and full customization is being developed, so you'll be able to choose from optionals layouts, colors, default images for posts without featured images or complete remove the feature image.
 
-## General Usage
+## General Usage (New features will be added)
  ### Peaw Single Post Preview
   As the name says, this is a widget that preview a single post only. All you need to do is enter an ID
   1. If using elementor, simply drag and drop the widget wherever you want. This is the widget name -> https://tinyurl.com/ny2r66e. If not using elementor, place the widget where you want in the wordpress admin.
@@ -42,6 +43,4 @@ This plugin adds the ID column in your "All Posts" section on the wordpress admi
 
 ## What's missing
 What we are creating and you can help 
-  1. Fix the 16:9 ratio image problem (if you add a non 16:9 ratio featured image, you can experience some styling mistakes); 
-  2. Custom Post Card size; 
   3. WHATEVER YOU WANT, just code and let us know.; 

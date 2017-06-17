@@ -69,7 +69,7 @@ class Peaw_Class{
 
 	public function peaw_register_base_scripts(){
 		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/post-preview-card.css' );
+		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/peaw-original-layout-with-thumbnail.css' );
 	}
 
 	/*

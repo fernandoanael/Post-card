@@ -1,0 +1,39 @@
+.peaw-multiple-posts-container {
+  display: flex;
+  flex-wrap: wrap; }
+
+.card {
+  margin: 10px 0px; }
+
+.peaw-loading {
+  display: none;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid black;
+  border-bottom: 5px solid black;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite; }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg); } }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+.peaw-load-more-container {
+  display: flex;
+  justify-content: center; }
+
+.peaw-trigger-loader {
+  color: black;
+  font-size: 40px; }
+  .peaw-trigger-loader:hover {
+    cursor: pointer; }
+
+/*# sourceMappingURL=peaw-multiple-posts-style.css.map */

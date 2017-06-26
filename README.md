@@ -1,46 +1,72 @@
 # Post-Preview-card
-Post Card Wordpress Plugin
+Post Card Wordpress Plugin V 2.0.0
 
 ### Example
-Post Card -> https://tinyurl.com/m9hxqgl
+Post Card -> https://ibb.co/gyjkL5
 
 ## Description
 
-This plugin installs 3 new widgets that preview a post in card shape. It is perfect for Page Builders like [Elementor](https://wordpress.org/plugins/elementor/) 
-This page builders sometimes lack in functionalities to dynamicaly preview a post wherever you want. If you feel this too, this plugin is perfect for you as it is going to add 3 widgets:
+This plugin was build to be used along with [Elementor](https://wordpress.org/plugins/elementor/) so it was only tested with it.
+Post Preview Card installs 3 widgets to help non-developers that want to use Elementor to preview blog posts within static Elementor's pages.
+list of widgets:
+* Multiple Posts: This widget previews multiple posts and you can select how many widgets to be firstly displayed and then the user will load the rest of the posts by clicking in the "plus button" and the posts are going to be reloaded without the need of reloading the page, this is possible because this widget use AJAX to load the others posts, granting a better User Experience.
 * Single Post by ID: This widget preview the post with the ID you inserted. 
 * Random Post by Category: This widget preview a random post using the category you inserted.
-One additional functionality this plugin does is adding a 'Post Id' column to your 'All Posts' section on the admin panel, so you can easily pick the post id you wish.
-* Multiple Posts: UNDER DEVELOPMENT 
 
-### Beatiful Layout (will change)
-Both widgets have the same layout that consists:
-* Thumbnail of the featured image. If you don't have one it is going to display a default image so we Encourage you to always add a Featured image for the posts you want to be shown.
-* Publish date and Category.
-* Post Title. The full post title will be shown
-* Call Text. What we call Call text is a text where you write something to call the users attention. If you don't insert nothing, the Post Excerpt will be used or if don't have it either, the first 85 letters of the Post content will be used.
-* A beatifull Read More button pointing to your Post Single Page.
+### Layout 
+This plugin has 1 layout with two variations so far, both are responsive. We are working to deliver more layouts in the near future.
+* Post with thumbnail will be displayed in this order: Thumbnail, Title, Publish date and Category, Post excerpt or call text, read more button 
+* Post without thumbnail will be displayed in this order: Title with black background, Post excerpt or call text, read more button
 
-More layout options and full customization is being developed, so you'll be able to choose from optionals layouts, colors, default images for posts without featured images or complete remove the feature image.
+Layout is customizable.
 
-## General Usage (New features will be added)
- ### Peaw Single Post Preview
+## General Usage 
+
+### Peaw Single Post Preview
   As the name says, this is a widget that preview a single post only. All you need to do is enter an ID
-  1. If using elementor, simply drag and drop the widget wherever you want. This is the widget name -> https://tinyurl.com/ny2r66e. If not using elementor, place the widget where you want in the wordpress admin.
-  2. Using the Elementor page builder, the widget menu will be prompted. -> https://tinyurl.com/n262g8m.
-  all you need to do here is insert the Post id (Check FAQ to know where to find it), and the last thing is to insert a beatifull text to make people interested about your post. If call text is blank, it will be the Post Excerpt, if it's balnk as well, it will be blank which is not cool.
-  3. That's it! Here an example of 3 Peaw widget together: https://tinyurl.com/m9hxqgl
+  1. Using Elementor, simply drag and drop the widget wherever you want. This is the widget name 
+  2. The widget menu will be prompted. 
+  all you need to do here is insert the Post id (Check FAQ to know where to find it), and the last thing is to insert a beatifull text to make people interested about your post. If call text is blank, it will be the Post Excerpt or first 85 char of post content 
+  3. All the others fields are optional.
+  4. That's it! Here an example of 3 Peaw widget together: https://tinyurl.com/m9hxqgl
 
 ### Peaw Random Post By Category
-  1. If using elementor, simply drag and drop the widget wherever you want. This is the widget name -> https://tinyurl.com/lwje9zu. If not using elementor, place the widget where you want in the wordpress admin.
-  2. All you need to do is choose the Category you want. The call text here is the Post excerpt always -> https://tinyurl.com/k8rnubo
+  1. Using Elementor, simply drag and drop the widget wherever you want. This is the widget name  
+  2. All you need to do is choose the Category you want. The call text here is the Post excerpt always.
   If you insert an invalid Category this will be the result ->https://tinyurl.com/lo5qbbd
-  3. That's it!
+  3. All the others fields are optional.
+  4. That's it!
+
+  If you're receiving the "Something is wrong" message it can be a lot of things but the most commom is that WordPress is not properly saving your widget and all you need to do is to change something in the widget form save, and then return the way it was and save again. This is a WP error, not a plugin error.
+
+### Peaw Multiple Posts
+  1. Using Elementor, simply drag and drop the widget wherever you want. 
+  2. The widget form will be prompted and you can choose how many posts to be displayed (999 posts will display ALL the blog posts), you can choose then, how many posts to be firstly displayed and how many posts per row.
+  3. All the others fields are optional
+  4. That's it! -> https://ibb.co/fdoWSk
   
 ## FAQ
 ### How can I know the Post id?
-This plugin adds the ID column in your "All Posts" section on the wordpress admin panel.
+This plugin adds the ID column in your "All Posts" section on the wordpress admin panel. You can deactivate this by going to the general settings page of the plugin.
 
-## What's missing
-What we are creating and you can help 
-  3. WHATEVER YOU WANT, just code and let us know.; 
+### Installed the plugin and no widget were added?
+Go to the Post Preview Card settings and go to Widgets and check the widgets you want to be installed.
+
+### I want more layouts
+We will be adding more layouts in the near future but if you want a personalized layout or even a personalized WP Template, you can contact me at fernandoanaelcabral@gmail.com 
+
+### I am a developer and want to help
+This plugin is mantained by me and myself, so every help is apreciated, I created some internal API for better creating and registering widgets for the plugin, there are some layout related API as well. So it's very easy to grow this plugin. If you wish to help contact me 
+at fernandoanaelcabral@gmail.com 
+
+### What are the next updates?
+in priority order:
+1. Bug fixes always come first 
+2. New Layouts
+3. A shortcode for this plugin
+4. Work towards universal compatibility with others page builders.
+
+## Known bugs
+1. Working only with Elementor 
+2. Elementor not rendering css style in the preview mode
+3. Elementor sometimes is not saving properly the random post by category widget

@@ -58,7 +58,10 @@ class Peaw_Layouts_Manager implements Peaw_Options_Base{
 		self::peaw_build_section('peaw-layout-settings');
 
 		/*Activate layout helper field*/
-		self::peaw_build_section('peaw-layout-activate-helper');
+		/*
+			FEATURE NOT YET DONE.
+		 */
+		/*self::peaw_build_section('peaw-layout-activate-helper');*/
 	}
 	/*Builds the section taking as parameter the section ID*/
 	private static function peaw_build_section($id){

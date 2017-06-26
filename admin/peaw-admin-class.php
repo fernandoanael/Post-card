@@ -99,5 +99,5 @@ class Peaw_Admin {
 	}
 }
 
-/*Get instance of the Peaw Admin class, Singleton Factory used*/
+/*Get instance of the Peaw Admin class, Singleton used*/
 add_action('init', array('Peaw_Admin','get_instance'));

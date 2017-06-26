@@ -1,4 +1,8 @@
 jQuery('#peaw-trigger-loader').on('click', function(btnLoader){
+
+	jQuery('#peaw-trigger-loader').hide();
+	jQuery("#peaw-loading-spin").show();
+
 	var pluginUri		= peawPHPInfo.pluginUri;
 	var responserPHPUrl = peawPHPInfo.responserPHPUrl;
 	var instance 		= peawPHPInfo.instance;
@@ -16,11 +20,13 @@ jQuery('#peaw-trigger-loader').on('click', function(btnLoader){
 			pluginUri : pluginUri,
 			instance : instance,
 			args	: args,
-			postsDisplayed : postsDisplayed
+			postsDisplayed : postsDisplayed,
+			delay: 3
 		}
 	}).done(function(response){
+		jQuery("#peaw-loading-spin").hide();
+		jQuery('#peaw-trigger-loader').show();
 		console.log(response);
-		//console.log(totalToDisplay);
 		jQuery('#peaw-multiple-posts-container').append(response);
 		var widgets = jQuery('.peaw-original-layout');
 

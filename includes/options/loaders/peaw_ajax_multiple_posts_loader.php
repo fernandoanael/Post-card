@@ -100,13 +100,14 @@
 			$peaw_widget->category_output = $category_output;
 
 			//If post has thumbnail set it, otherwise, get the default image
-			if(has_post_thumbnail($post_id)){
+			if(has_post_thumbnail($peaw_widget->post_ID)){
 
-				$image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
+				$image = wp_get_attachment_image_src(get_post_thumbnail_id($peaw_widget->post_ID), [480,270]);
 				$image = $image[0];
+				$peaw_widget->image_flag = true;
 
 			}else{
-				$image = PEAW_URI . 'public/images/image-not-found.png'; 
+				$peaw_widget->image_flag = false;
 			}
 			$peaw_widget->image = $image;
 
@@ -116,15 +117,6 @@
 				$instance['layout_selected'] = $defaults_layout_list[$categories[0]->term_id];
 			}
 
-			$peaw_widget->additional_css_names = '';
-			if($count >= 3){
-				$peaw_widget->additional_css_names = ' col-md-3 ';
-			}elseif($count == 2){
-				$peaw_widget->additional_css_names = ' col-md-5 ';
-			}elseif($count == 1){
-				$peaw_widget->additional_css_names = ' col-md-10 ';
-			}
-			
 			$peaw_widget->additional_css_names .= ' peaw-ajax-load-hidden ';
 			
 			/*Read more text*/
@@ -137,7 +129,26 @@
 			$peaw_widget->instance = $instance;
 			$peaw_widget->args = $args;
 
+			switch ($peaw_widget->instance['posts_per_row']):
+				case 1:
+					$peaw_widget->additional_css_names .= ' col-md-12 '; 
+					break;
+				case 2:
+					$peaw_widget->additional_css_names .= ' col-md-6 '; 
+					break;
+				case 3:
+					$peaw_widget->additional_css_names .= ' col-md-4 '; 
+					break;
+				default:
+					$peaw_widget->additional_css_names .= ' col-md-4 '; 
+					break;
+			endswitch;
 
+			$peaw_widget->button_backgroud_color =  $instance['button_backgroud_color'];
+
+			$peaw_widget->button_font_color = $instance['button_font_color'];
+
+			$peaw_widget->button_font_size = $instance['button_font_size'];
 
 			/*Use the Layout Manager class to render the widget according to the specified settings*/
 			Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);

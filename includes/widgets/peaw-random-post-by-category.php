@@ -97,7 +97,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			//If User didnt set a valid category
 			$peaw_widget->post_title 	= __('Something is wrong', PEAW_TEXT_DOMAIN);
 			$peaw_widget->publish_date 	= __('Date not found', PEAW_TEXT_DOMAIN);
-			$peaw_widget->call_text		= __('This can be caused by invalid category, category with no posts or category recently deleted.', PEAW_TEXT_DOMAIN);
+			$peaw_widget->call_text		= __('This can be caused by invalid category, category with no posts or category recently deleted. Try changing something in the widget form and re-saving it.', PEAW_TEXT_DOMAIN);
 			$peaw_widget->category_output = "<a class='peaw-category-link' href='#'>".
 								__('No category', PEAW_TEXT_DOMAIN)."</a>";
 			$peaw_widget->post_link = "#";
@@ -107,8 +107,22 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			$peaw_widget->instance = $instance;
 			$peaw_widget->args = $args;
 		}
+		$peaw_widget->additional_css_names .= " col-md-6 ";
+
+		$peaw_widget->button_backgroud_color =  $instance['button_backgroud_color'];
+
+		$peaw_widget->button_font_color = $instance['button_font_color'];
+
+		$peaw_widget->button_font_size = $instance['button_font_size'];
+
+
 		/*Render the widget*/
+		if(!$peaw_widget->instance){
+			$peaw_widget->instance['layout_selected'] = 'original_layout';
+		}
+
 		Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
+		
 	}
 
 	public function update($new_instance, $old_instance){
@@ -130,11 +144,6 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			$instance['layout_selected'] = null;
 		}
 
-		if(!empty($new_instance['full_type_selected'])){
-			$instance['full_type_selected'] = $new_instance['full_type_selected'];
-		}else{
-			$instance['full_type_selected'] = null;
-		}
 
 		if(!empty($new_instance['font_size']) && is_int((int)$new_instance['font_size'])){
 			$instance['font_size'] = $new_instance['font_size'];
@@ -154,6 +163,28 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 		}else{
 			$instance['read_more_text'] = '';
 		}
+
+		if(!empty($new_instance['button_backgroud_color'])){
+			$instance['button_backgroud_color'] = sanitize_text_field($new_instance['button_backgroud_color']);
+
+		}else{
+			$instance['button_backgroud_color'] = '';
+		}
+
+		if(!empty($new_instance['button_font_color'])){
+			$instance['button_font_color'] = sanitize_text_field($new_instance['button_font_color']);
+
+		}else{
+			$instance['button_font_color'] = '';
+		}
+
+
+		if(!empty($new_instance['button_font_size'])){
+			$instance['button_font_size'] = sanitize_text_field($new_instance['button_font_size']);
+
+		}else{
+			$instance['button_font_size'] = '';
+		}
 		/* Mutual Form instance End */
 
 		return $instance;
@@ -166,9 +197,6 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 		//Prepare the wp_dropdown_categories to work as I want
 		$category_query_args = array(
 			'hide_empty' 		=> true,
-			'exclude'			=> '1',
-			'exclude_tree'		=> '1',
-			'show_option_none' 	=>' ',
 			'name' 				=> esc_attr($this->get_field_name('category')),
 			'id'				=> esc_attr($this->get_field_id('category')),
 			'selected' 			=> absint($category),
@@ -177,11 +205,17 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 
 		$layout_selected = !empty($instance['layout_selected']) ? esc_attr($instance['layout_selected']) : null;
 		$layouts_list = Peaw_Layouts_Manager::peaw_get_layouts_list();//This should be like this, it should be private function
-		$full_type_selected = !empty($instance['full_type_selected']) ? esc_attr($instance['full_type_selected']) : null;
 		$font_size = !empty($instance['font_size']) ? esc_attr($instance['font_size']) : null;
 		$excerpt_length = !empty($instance['excerpt_length']) ? esc_attr($instance['excerpt_length']) : null;
 
 		$read_more_text = ! empty( $instance['read_more_text'] ) ? esc_attr($instance['read_more_text']) : esc_html__( 'Read More', PEAW_TEXT_DOMAIN );
+
+		$button_backgroud_color = !empty($instance['button_backgroud_color']) ? esc_attr($instance['button_backgroud_color']) : '';
+
+		$button_font_color = !empty($instance['button_font_color']) ? esc_attr($instance['button_font_color']) : '';
+
+		$button_font_size = !empty($instance['button_font_size']) ? esc_attr($instance['button_font_size']) : '';
+
 		?>
 		
 	    <p><label for="<?php echo esc_attr($this->get_field_id( 'category' )); ?>"><?php esc_attr_e( 'Select category', PEAW_TEXT_DOMAIN ); ?>:
@@ -208,30 +242,7 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			<?php } ?>
 		</select>
 
-		<p><label for="<?php echo esc_attr($this->get_field_id('full_type_selected')); ?>">
-			<?php esc_html_e('Select Full Display Type', PEAW_TEXT_DOMAIN); ?>
-		</label></p>
-		<select id="<?php echo  esc_attr( $this->get_field_id( 'full_type_selected' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'full_type_selected' )); ?>">
-				<?php 
-				if($full_type_selected == 'single_page'){
-					$selected = 'selected';
-				}else{
-					$selected = '';
-				}
-				?>
-					<option value="single_page" <?php echo $selected; ?>>Single Post Page</option>
-				<?php 
-				if($full_type_selected == 'modal'){
-					$selected = 'selected';
-				}else{
-					$selected = '';
-				}
-				?>
-					<option value="modal" <?php echo $selected; ?>>Modal Javascript</option>
-		</select>
-
 		
-
 		<p><label for="<?php echo esc_attr($this->get_field_id('font_size')); ?>">
 			<?php esc_html_e('Font Size', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
@@ -246,6 +257,25 @@ class PEAW_Random_Post_By_Category extends WP_Widget{
 			<?php esc_attr_e( 'Read More Button Text:', PEAW_TEXT_DOMAIN ); ?>		
 		</label></p> 
 		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'read_more_text' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'read_more_text' )); ?>" type="text" value="<?php echo esc_attr($read_more_text); ?>">
+
+		<p>For every color use a Hex code like this: #fffffff . The '#' is mandatory. Or you can simply wright the color name like: red 
+			<a href="http://htmlcolorcodes.com/color-picker/"> Hex Color Picker </a>
+		</p>
+		
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_backgroud_color' )); ?>">
+			<?php esc_attr_e( 'Button background color:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_backgroud_color' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_backgroud_color' )); ?>" type="text" value="<?php echo esc_attr($button_backgroud_color); ?>">
+
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_font_color' )); ?>">
+			<?php esc_attr_e( 'Button font color:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_font_color' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_font_color' )); ?>" type="text" value="<?php echo esc_attr($button_font_color); ?>">
+
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_font_size' )); ?>">
+			<?php esc_attr_e( 'Button font size:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_font_size' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_font_size' )); ?>" type="text" value="<?php echo esc_attr($button_font_size); ?>">
 		<!--Mutual Form End -->
 	  <?php
 	}

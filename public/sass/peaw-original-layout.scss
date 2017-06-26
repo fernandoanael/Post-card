@@ -1,0 +1,50 @@
+.no-padding{
+	padding:0;
+}
+
+.card-padding{
+	padding:10px 1.5rem;
+}
+
+.card-title{
+  font-size: 25px;
+  margin-bottom: 0;
+}
+
+
+.card-post-info{
+	font-size:12px;
+	color:#a0a0a0;
+}
+
+.card-btn{
+
+  width: 100%;
+  display: block;
+  font-weight: bold;
+  border-radius: 0 0 0.2rem 0.2rem;
+  padding: 10px 0;
+  background-color: #292b2c;
+  border-color: #292b2c;
+  color: #ffffff!important;
+
+	&:hover{
+		background-color: #292b2c;
+    	border-color: #292b2c;
+	}
+
+}
+
+.no-thumbnail-title{
+  background: #292b2c;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 25px;
+  margin-bottom: 0;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}

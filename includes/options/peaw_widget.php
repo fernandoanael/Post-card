@@ -14,6 +14,7 @@ class Peaw_Widget extends Peaw_Widgets_base{
 	public $args = [];
 	public $instance = [];
 	public $image;
+	public $image_flag;
 	public $publish_date;
 	public $category_output;
 	public $post_title;

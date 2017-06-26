@@ -13,46 +13,53 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
 		wp_enqueue_style('bootstrap-v4');
 		wp_enqueue_style('peaw-post-preview-card');
-
 		/*Call renderization*/
 		$this->peaw_layout_render($peaw_widget);
 	}
 
 	public function peaw_layout_render(Peaw_Widgets_Base $peaw_widget){
-		/*Start renderization*/
+		$no_thumbnail_title = !$peaw_widget->image_flag ? ' no-thumbnail-title ' : '';
+
+		/*Start renderization*/ 
 		echo $peaw_widget->args['before_widget'];
 	?>
-		<div class="card peaw-original-layout <?php echo $peaw_widget->additional_css_names ?>" style="<?php echo $peaw_widget->additional_style; ?>">
+<div class="col-sm-12 col-md-4 <?php echo $peaw_widget->additional_css_names ?>" style="<?php echo $peaw_widget->additional_style; ?>">
+	<div class="card  no-padding ">
+		<?php 
+			$no_thumbnail_title = ' no-thumbnail-title ';
+			if($peaw_widget->image_flag): 
+				$no_thumbnail_title = '';
+		?>
+			
+				<img src="<?php echo esc_attr($peaw_widget->image); ?>" class="card-img-top">
 
-			<img src="<?php echo esc_attr($peaw_widget->image); ?>" class="post-preview-card-featured-image">
-			<div class="card-block">
-		  		<p class="card-text">
-		  		<span class="peaw-info-span">
-		  			<i class="dashicons dashicons-clock"></i>
-		  		</span>
-		  		<?php echo esc_html($peaw_widget->publish_date); ?> in <?php echo $peaw_widget->category_output; ?>
+		<?php endif; ?>
 
-		  		</p>
+		<div class="card-block no-padding">
 
-			    <h4 class="card-title" style="font-size: <?php echo $peaw_widget->font_size; ?>px;"><?php echo esc_html($peaw_widget->post_title); ?></h4>
+			<h4 class="card-title card-padding <?php echo $no_thumbnail_title ?>">
+				<?php echo $peaw_widget->post_title; ?>
+			</h4>
 
-			    <p class="peaw-call-text"><?php echo esc_html($peaw_widget->call_text); ?></p>
+			<div class="card-padding">
 
-			    <a href="<?php echo esc_attr($peaw_widget->post_link); ?>" class=" peaw-read-more">
-			    
-			    	<?php echo esc_html($peaw_widget->read_more_text); ?>
+				<p class="card-text"><?php echo $peaw_widget->call_text; ?></p>
 
-			    	<span class="peaw-read-more-span">
+				<p class="card-post-info">
 
-			    		<i class="dashicons dashicons-arrow-right-alt2"></i>
-			    		
-			    	</span>
+		  			<?php echo esc_html($peaw_widget->publish_date); ?> in <?php echo $peaw_widget->category_output; ?>
 
-			    </a>
+				</p>
+			</div>
 
-		  </div>
-
+			<a href="<?php echo $peaw_widget->post_link; ?>" class="btn btn-primary btn-sm card-btn" style="background-color: <?php echo $peaw_widget->button_backgroud_color; ?>; color: <?php echo $peaw_widget->button_font_color; ?>!important; font-size: <?php echo $peaw_widget->button_font_size; ?>px;">
+				<?php echo esc_html($peaw_widget->read_more_text,PEAW_TEXT_DOMAIN); ?>
+			</a>
+			
 		</div>
+
+	</div>
+</div>
 	<?php
 		echo $peaw_widget->args['after_widget'];
 	}

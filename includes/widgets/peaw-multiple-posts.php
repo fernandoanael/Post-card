@@ -23,12 +23,13 @@ class PEAW_Multiple_Posts extends WP_Widget{
 
 		/*Register the ajax loader javascript*/
 		wp_register_script( 'peaw_multiple_posts_ajax_loader', PEAW_URI.'public/js/multiple-posts-ajax-loader.js', [], '', true );
+		wp_register_style( 'peaw_multiple_posts_style', PEAW_URI.'public/css/peaw-multiple-posts-style.css');
 
 	}
 
 	public function widget($args, $instance){
 		
-
+		wp_enqueue_style('peaw_multiple_posts_style');
 		/*
 		 *	Getting the default layout for each category
 		 */
@@ -150,29 +151,22 @@ class PEAW_Multiple_Posts extends WP_Widget{
 						$peaw_widget->post_link = get_post_permalink($peaw_widget->post_ID);
 
 						//If post has thumbnail set it, otherwise, get the default image
-						if(has_post_thumbnail($post_id)){
+						if(has_post_thumbnail($peaw_widget->post_ID)){
 
-							$image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), [480,270]);
-							$image = $image[0];
+							$peaw_widget->image = wp_get_attachment_image_src(get_post_thumbnail_id($peaw_widget->post_ID), [480,270]);
+							$peaw_widget->image = $peaw_widget->image[0];
+							$peaw_widget->image_flag = true;
 
 						}else{
-							$image = PEAW_URI . 'public/images/image-not-found.png'; 
+							$peaw_widget->image = PEAW_URI . 'public/images/image-not-found.png'; 
+							$peaw_widget->image_flag = false;
 						}
-						$peaw_widget->image = $image;
+
 
 						if(!empty($layout)){
 							$instance['layout_selected'] = $layout;
 						}else{
 							$instance['layout_selected'] = $defaults_layout_list[$categories[0]->term_id];
-						}
-
-						$peaw_widget->additional_css_names = '';
-						if($count >= 3){
-							$peaw_widget->additional_css_names = 'col-md-3';
-						}elseif($count == 2){
-							$peaw_widget->additional_css_names = 'col-md-5';
-						}elseif($count == 1){
-							$peaw_widget->additional_css_names = 'col-md-10';
 						}
 
 						/*Read more text*/
@@ -184,6 +178,29 @@ class PEAW_Multiple_Posts extends WP_Widget{
 						/*Passes the instance and args to the peaw_widget*/
 						$peaw_widget->instance = $instance;
 						$peaw_widget->args = $args;
+
+						/* Get widget width */
+						switch ($peaw_widget->instance['posts_per_row']):
+							case 1:
+								$peaw_widget->additional_css_names .= ' col-md-12 '; 
+								break;
+							case 2:
+								$peaw_widget->additional_css_names .= ' col-md-6 '; 
+								break;
+							case 3:
+								$peaw_widget->additional_css_names .= ' col-md-4 '; 
+								break;
+							default:
+								$peaw_widget->additional_css_names .= ' col-md-4 '; 
+								break;
+						endswitch;
+
+						$peaw_widget->button_backgroud_color =  $instance['button_backgroud_color'];
+
+						$peaw_widget->button_font_color = $instance['button_font_color'];
+
+						$peaw_widget->button_font_size = $instance['button_font_size'];
+
 
 						/*Use the Layout Manager class to render the widget according to the specified settings*/
 						Peaw_Layouts_Manager::peaw_layout_render($peaw_widget);
@@ -200,9 +217,10 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		<?php 
 			if($loader): 
 		?>
-				<div class="row">
-					<div class="col-xs-12 peaw-load-more-container">
-						<p class="dashicons dashicons-image-rotate peaw-load-more-button" id="peaw-trigger-loader"></p>
+				<div class="row  peaw-load-more-container">
+					<div class="col-xs-12">
+						<p class="dashicons dashicons-plus peaw-trigger-loader" id="peaw-trigger-loader"></p>
+						<div id="peaw-loading-spin" class="peaw-loading"></div>
 					</div>
 				</div>
 		<?php
@@ -228,6 +246,16 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			$instance['posts_first_shown'] = $instance['number_of_posts'];
 		}
 
+		if(!empty($new_instance['posts_per_row']) && is_int((int)$new_instance['posts_per_row'])){
+			if($new_instance['posts_per_row'] > 3){
+				$instance[posts_per_row] = 3;
+			}else{
+				$instance[posts_per_row] = $new_instance['posts_per_row'];
+			}
+		}else{
+			$instance['posts_per_row'] = 3;
+		}
+
 		if(!empty($new_instance['category_selected']) && $new_instance['category_selected'] !== 'all'){
 			$instance['category_selected'] = $new_instance['category_selected'];
 		}else{
@@ -239,12 +267,6 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			$instance['layout_selected'] = $new_instance['layout_selected'];
 		}else{
 			$instance['layout_selected'] = null;
-		}
-
-		if(!empty($new_instance['full_type_selected'])){
-			$instance['full_type_selected'] = $new_instance['full_type_selected'];
-		}else{
-			$instance['full_type_selected'] = null;
 		}
 
 		if(!empty($new_instance['font_size']) && is_int((int)$new_instance['font_size'])){
@@ -265,6 +287,28 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		}else{
 			$instance['read_more_text'] = 'Read More';
 		}
+
+		if(!empty($new_instance['button_backgroud_color'])){
+			$instance['button_backgroud_color'] = sanitize_text_field($new_instance['button_backgroud_color']);
+
+		}else{
+			$instance['button_backgroud_color'] = '';
+		}
+
+		if(!empty($new_instance['button_font_color'])){
+			$instance['button_font_color'] = sanitize_text_field($new_instance['button_font_color']);
+
+		}else{
+			$instance['button_font_color'] = '';
+		}
+
+
+		if(!empty($new_instance['button_font_size'])){
+			$instance['button_font_size'] = sanitize_text_field($new_instance['button_font_size']);
+
+		}else{
+			$instance['button_font_size'] = '';
+		}
 		/* Mutual Form instance End */
 		return $instance;
 	}
@@ -272,25 +316,36 @@ class PEAW_Multiple_Posts extends WP_Widget{
 	public function form($instance){
 		$number_of_posts = !empty($instance['number_of_posts']) ? esc_attr($instance['number_of_posts']) : null;
 		$posts_first_shown = !empty($instance['posts_first_shown']) ? esc_attr($instance['posts_first_shown']) : null;
+		$posts_per_row = !empty($instance['posts_per_row']) ? esc_attr($instance['posts_per_row']) : 3;
 		$category_selected = !empty($instance['category_selected']) ? esc_attr($instance['category_selected']) : 'all';
 		$categories_list = get_categories();
 		$layout_selected = !empty($instance['layout_selected']) ? esc_attr($instance['layout_selected']) : null;
 		$layouts_list = Peaw_Layouts_Manager::peaw_get_layouts_list();
-		$full_type_selected = !empty($instance['full_type_selected']) ? esc_attr($instance['full_type_selected']) : null;
 		$font_size = !empty($instance['font_size']) ? esc_attr($instance['font_size']) : null;
 		$excerpt_length = !empty($instance['excerpt_length']) ? esc_attr($instance['excerpt_length']) : null;
 
 		$read_more_text = ! empty( $instance['read_more_text'] ) ? esc_attr($instance['read_more_text']) : esc_html__( 'Read More', PEAW_TEXT_DOMAIN );
+
+		$button_backgroud_color = !empty($instance['button_backgroud_color']) ? esc_attr($instance['button_backgroud_color']) : '';
+
+		$button_font_color = !empty($instance['button_font_color']) ? esc_attr($instance['button_font_color']) : '';
+
+		$button_font_size = !empty($instance['button_font_size']) ? esc_attr($instance['button_font_size']) : '';
 		?>
 		<p><label for="<?php echo esc_attr($this->get_field_id('number_of_posts')); ?>">
 			<?php esc_html_e('Number of Posts', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
-		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'number_of_posts' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'number_of_posts' )); ?>" type="number" value="<?php echo esc_attr($number_of_posts); ?>">
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'number_of_posts' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'number_of_posts' )); ?>" type="number" value="<?php echo esc_attr($number_of_posts); ?>"> all = 999
 
 		<p><label for="<?php echo esc_attr($this->get_field_id('posts_first_shown')); ?>">
 			<?php esc_html_e('Number of posts firstly displayed', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
 		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'posts_first_shown' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'posts_first_shown' )); ?>" type="number" value="<?php echo esc_attr($posts_first_shown); ?>">
+
+		<p><label for="<?php echo esc_attr($this->get_field_id('posts_per_row')); ?>">
+			<?php esc_html_e('Number of posts per line', PEAW_TEXT_DOMAIN); ?>
+		</label></p>
+		<input class="widefat" style="width: 50px;" id="<?php echo  esc_attr( $this->get_field_id( 'posts_per_row' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'posts_per_row' )); ?>" type="number" value="<?php echo esc_attr($posts_per_row); ?>">max = 3
 
 
 		<p><label for="<?php echo esc_attr($this->get_field_id('category_selected')); ?>">
@@ -322,30 +377,6 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			?>
 		</select>
 
-		<p><label for="<?php echo esc_attr($this->get_field_id('full_type_selected')); ?>">
-			<?php esc_html_e('Select Full Display Type', PEAW_TEXT_DOMAIN); ?>
-		</label></p>
-		<select id="<?php echo  esc_attr( $this->get_field_id( 'full_type_selected' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'full_type_selected' )); ?>">
-				<?php 
-				if($full_type_selected == 'single_page'){
-					$selected = 'selected';
-				}else{
-					$selected = '';
-				}
-				?>
-					<option value="single_page" <?php echo $selected; ?>>Single Post Page</option>
-				<?php 
-				if($full_type_selected == 'modal'){
-					$selected = 'selected';
-				}else{
-					$selected = '';
-				}
-				?>
-					<option value="modal" <?php echo $selected; ?>>Modal Javascript</option>
-		</select>
-
-		
-
 		<p><label for="<?php echo esc_attr($this->get_field_id('font_size')); ?>">
 			<?php esc_html_e('Font Size', PEAW_TEXT_DOMAIN); ?>
 		</label></p>
@@ -360,6 +391,26 @@ class PEAW_Multiple_Posts extends WP_Widget{
 			<?php esc_attr_e( 'Read More Button Text:', PEAW_TEXT_DOMAIN ); ?>		
 		</label></p> 
 		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'read_more_text' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'read_more_text' )); ?>" type="text" value="<?php echo esc_attr($read_more_text); ?>">
+
+
+		<p>For every color use a Hex code like this: #fffffff . The '#' is mandatory. Or you can simply wright the color name like: red 
+			<a href="http://htmlcolorcodes.com/color-picker/"> Hex Color Picker </a>
+		</p>
+		
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_backgroud_color' )); ?>">
+			<?php esc_attr_e( 'Button background color:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_backgroud_color' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_backgroud_color' )); ?>" type="text" value="<?php echo esc_attr($button_backgroud_color); ?>">
+
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_font_color' )); ?>">
+			<?php esc_attr_e( 'Button font color:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_font_color' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_font_color' )); ?>" type="text" value="<?php echo esc_attr($button_font_color); ?>">
+
+		<p><label for="<?php echo esc_attr($this->get_field_id( 'button_font_size' )); ?>">
+			<?php esc_attr_e( 'Button font size:', PEAW_TEXT_DOMAIN ); ?>		
+		</label></p> 
+		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'button_font_size' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'button_font_size' )); ?>" type="text" value="<?php echo esc_attr($button_font_size); ?>">
 		<!--Mutual Form End -->
 	  <?php
 	}

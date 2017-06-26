@@ -28,12 +28,11 @@ Layout is customizable.
   2. The widget menu will be prompted. 
   all you need to do here is insert the Post id (Check FAQ to know where to find it), and the last thing is to insert a beatifull text to make people interested about your post. If call text is blank, it will be the Post Excerpt or first 85 char of post content 
   3. All the others fields are optional.
-  4. That's it! Here an example of 3 Peaw widget together: https://tinyurl.com/m9hxqgl
+  4. That's it! Here an example: https://ibb.co/gyjkL5
 
 ### Peaw Random Post By Category
   1. Using Elementor, simply drag and drop the widget wherever you want. This is the widget name  
   2. All you need to do is choose the Category you want. The call text here is the Post excerpt always.
-  If you insert an invalid Category this will be the result ->https://tinyurl.com/lo5qbbd
   3. All the others fields are optional.
   4. That's it!
 

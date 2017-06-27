@@ -8,7 +8,7 @@ Stable tag: 2.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Post Preview Card is a Plugin that adds 3 beatiful widgets which previews posts in card shape. Made to be used with Elementor 
+Post Preview Card is a Plugin that adds 3 beatiful widgets which previews posts in card shape. Made to be used with Elementor, Beaver or SiteOrigin page builder.
 
 == Description ==
 

@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.0
+ * @version 	2.0.1
  *
  *	Class that manage all the registered layout and default layouts.
  */

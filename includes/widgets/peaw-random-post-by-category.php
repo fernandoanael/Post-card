@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.0
+ * @version 	2.0.1
  */
 class PEAW_Random_Post_By_Category extends WP_Widget{
 	public function __construct(){

@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.0
+ * @version 	2.0.1
  */
 ?>
 <h1>Post Preview Card General Settings</h1>

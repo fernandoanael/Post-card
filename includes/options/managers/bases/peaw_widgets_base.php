@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.0
+ * @version 	2.0.1
  * Interface to be used by Any Manager that creates custom options
  */
 abstract class Peaw_Widgets_Base{

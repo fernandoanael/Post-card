@@ -102,7 +102,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		/*
 		 *	Time to render loop
 		 */
-		echo $args['before_widget'];
+		//echo $args['before_widget'];
 		?>
 		<div class="row">
 			<div class="col-xs-12 peaw-multiple-posts-container" id="peaw-multiple-posts-container">
@@ -225,7 +225,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 				</div>
 		<?php
 			endif;
-			echo $args['after_widget'];
+			//echo $args['after_widget'];
 	}
 
 	public function update($new_instance, $old_instance){

@@ -21,7 +21,7 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 		$no_thumbnail_title = !$peaw_widget->image_flag ? ' no-thumbnail-title ' : '';
 
 		/*Start renderization*/ 
-		echo $peaw_widget->args['before_widget'];
+		//echo $peaw_widget->args['before_widget'];
 	?>
 <div class="col-sm-12 col-md-4 <?php echo $peaw_widget->additional_css_names ?>" style="<?php echo $peaw_widget->additional_style; ?>">
 	<div class="card  no-padding ">
@@ -61,7 +61,7 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 	</div>
 </div>
 	<?php
-		echo $peaw_widget->args['after_widget'];
+		//echo $peaw_widget->args['after_widget'];
 	}
  
 }

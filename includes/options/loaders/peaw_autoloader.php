@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.
+ * @version 	2.0.0
  */
 /*Provides interface to search and instantiate all the needed Peaw class*/
 spl_autoload_register(function($peaw_class){

@@ -5,6 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
+ * @version 	2.0.0
  */
 class Peaw_Class{
 	/*

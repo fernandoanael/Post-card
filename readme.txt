@@ -55,6 +55,8 @@ More layout options and full customization is being developed, so you'll be able
 
 == Installation ==
 
+YOU MUST CHECK MANUALLY THE WIDGETS YOU WANT TO INSTALL IN: post-preview-card settings menu -> widget tab 
+
 1. Upload the plugin files to the `/wp-content/plugins/Post-Preview-Card` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. And that's it! Simple as that. You can now use the widgets with your page builder.
@@ -96,3 +98,16 @@ in priority order:
 
 = 1.0 =
 First Released Version
+
+= 2.0 =
+1. Multiple post widget added, faking a blog loop within page builders.
+2. Internal code was re-made, making it faster and easier to grow this plugin, that's why a new version was released.
+3. Original Layout added, responsive layout.
+3. New customizable options added.
+
+= 2.0.1 =
+Bug fix: plugin wasn't working with others page builders but Elementor.
+Now plugins is working and tested with:
+1. Elementor
+2. Page Builder by SiteOrigin
+3. Beaver Builder Plugin (Lite Version)

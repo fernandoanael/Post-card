@@ -6,7 +6,7 @@ Post Card -> https://ibb.co/gyjkL5
 
 ## Description
 
-This plugin was build to be used along with [Elementor](https://wordpress.org/plugins/elementor/) so it was only tested with it.
+This plugin was build to be used along with [Elementor](https://wordpress.org/plugins/elementor/), [Site Origin Page Builder](https://siteorigin.com/) or [Beaver builder](https://www.wpbeaverbuilder.com/home/?utm_expid=82857025-13.-Mrg6iFCTMyN1GHrIwH9wQ.1&utm_medium=bb&utm_source=plugins-admin-page&utm_campaign=plugins-admin-author&utm_referrer=http%3A%2F%2Flocalhost%2Fwp%2FPluginDevWorkspace%2Fwp-admin%2Fplugins.php). It was only tested with these 3 but it should work with any.
 Post Preview Card installs 3 widgets to help non-developers that want to use Elementor to preview blog posts within static Elementor's pages.
 list of widgets:
 * Multiple Posts: This widget previews multiple posts and you can select how many widgets to be firstly displayed and then the user will load the rest of the posts by clicking in the "plus button" and the posts are going to be reloaded without the need of reloading the page, this is possible because this widget use AJAX to load the others posts, granting a better User Experience.

@@ -23,13 +23,13 @@ class PEAW_Multiple_Posts extends WP_Widget{
 
 		/*Register the ajax loader javascript*/
 		wp_register_script( 'peaw_multiple_posts_ajax_loader', PEAW_URI.'public/js/multiple-posts-ajax-loader.js', [], '', true );
-		wp_register_style( 'peaw_multiple_posts_style', PEAW_URI.'public/css/peaw-multiple-posts-style.css');
+		
 
 	}
 
 	public function widget($args, $instance){
 		
-		wp_enqueue_style('peaw_multiple_posts_style');
+		//wp_enqueue_style('peaw_multiple_posts_style');
 		/*
 		 *	Getting the default layout for each category
 		 */

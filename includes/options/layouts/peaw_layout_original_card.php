@@ -11,8 +11,6 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 	public function __construct(Peaw_Widgets_Base $peaw_widget){
 		/* Enqueue registered Styles and Scripts here. This way style and Script are only enqueued if widget is on page */
-		wp_enqueue_style('bootstrap-v4');
-		wp_enqueue_style('peaw-post-preview-card');
 		/*Call renderization*/
 		$this->peaw_layout_render($peaw_widget);
 	}
@@ -51,8 +49,21 @@ class Peaw_Layout_Original_Card implements Peaw_Layouts_Base{
 
 				</p>
 			</div>
+			
+			<?php 
+				if(!$peaw_widget->button_backgroud_color){
+					$peaw_widget->button_backgroud_color = "#292b2c";
+				}
 
-			<a href="<?php echo $peaw_widget->post_link; ?>" class="btn btn-primary btn-sm card-btn" style="background-color: <?php echo $peaw_widget->button_backgroud_color; ?>; color: <?php echo $peaw_widget->button_font_color; ?>!important; font-size: <?php echo $peaw_widget->button_font_size; ?>px;">
+				if(!$peaw_widget->button_font_color){
+					$peaw_widget->button_font_color = "#ffffff";
+				}
+
+
+
+			?>
+
+			<a href="<?php echo $peaw_widget->post_link; ?>" class="btn btn-primary btn-sm card-btn" style="background-color: <?php echo $peaw_widget->button_backgroud_color; ?>; color: <?php echo $peaw_widget->button_font_color; ?>; font-size: <?php echo $peaw_widget->button_font_size; ?>px;">
 				<?php echo esc_html($peaw_widget->read_more_text,PEAW_TEXT_DOMAIN); ?>
 			</a>
 			

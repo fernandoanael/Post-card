@@ -29,18 +29,18 @@ Layout is customizable.
 More layout options and full customization is being developed, so you'll be able to choose from optionals layouts, colors, default images for posts without featured images or complete remove the feature image.
 
 == Easy to Use == 
-= Peaw Single Post Preview =
-  As the name says, this is a widget that preview a single post only. All you need to do is enter an ID
+
+= Peaw Single Post by id Preview =
   1. Using a page builder, simply drag and drop the widget wherever you want. This is the widget name 
   2. The widget menu will be prompted. 
   all you need to do here is insert the Post id (Check FAQ to know where to find it), and the last thing is to insert a beatifull text to make people interested about your post. If call text is blank, it will be the Post Excerpt or first 85 char of post content 
   3. All the others fields are optional.
-  4. That's it! Here an example of 3 Peaw widget together: https://tinyurl.com/m9hxqgl
+  4. That's it! Here an example of 3 Peaw widget together [here](https://tinyurl.com/m9hxqgl)
 
 = Peaw Random Post By Category =
   1. Using a page builder, simply drag and drop the widget wherever you want. This is the widget name  
   2. All you need to do is choose the Category you want. The call text here is the Post excerpt always.
-  If you insert an invalid Category this will be the result ->https://tinyurl.com/lo5qbbd
+  If you insert an invalid Category this will be the [result](https://tinyurl.com/lo5qbbd)
   3. All the others fields are optional.
   4. That's it!
 
@@ -50,7 +50,7 @@ More layout options and full customization is being developed, so you'll be able
   1. Using a page builder, simply drag and drop the widget wherever you want. 
   2. The widget form will be prompted and you can choose how many posts to be displayed (999 posts will display ALL the blog posts), you can choose then, how many posts to be firstly displayed and how many posts per row.
   3. All the others fields are optional
-  4. That's it! -> https://ibb.co/fdoWSk
+  4. [That's it!](https://ibb.co/fdoWSk)
 
 
 == Installation ==
@@ -104,6 +104,9 @@ First Released Version
 = 2.0.1 =
 Bug fix: plugin wasn't working with others page builders but Elementor.
 Now plugins is working and tested with:
-1. [Elementor] (https://wordpress.org/plugins/elementor/)
-2. [Page Builder by SiteOrigin] (https://siteorigin.com/)
+1. [Elementor](https://wordpress.org/plugins/elementor/)
+2. [Page Builder by SiteOrigin](https://siteorigin.com/)
 3. [Beaver Builder Plugin](https://www.wpbeaverbuilder.com/home/?utm_expid=82857025-13.-Mrg6iFCTMyN1GHrIwH9wQ.1&utm_medium=bb&utm_source=plugins-admin-page&utm_campaign=plugins-admin-author&utm_referrer=http%3A%2F%2Flocalhost%2Fwp%2FPluginDevWorkspace%2Fwp-admin%2Fplugins.php) 
+
+= 2.0.2 =
+Bug fix: Fixed the bug that was preventing Elementor to properly preview the layout of the Post Preview Card in the live editing mode.

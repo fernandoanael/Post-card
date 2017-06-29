@@ -69,8 +69,12 @@ class Peaw_Class{
 	 */
 
 	public function peaw_register_base_scripts(){
-		wp_register_style( 'bootstrap-v4', PEAW_URI . 'public/css/bootstrap.css' );
-		wp_register_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/peaw-original-layout.css' );
+		wp_enqueue_style( 'bootstrap-v4-btn', PEAW_URI . 'public/css/bootstrap-btn.css' );
+		wp_enqueue_style( 'bootstrap-v4-grid', PEAW_URI . 'public/css/bootstrap-grid.css' );
+		wp_enqueue_style( 'bootstrap-v4-card', PEAW_URI . 'public/css/bootstrap-card.css' );
+
+		wp_enqueue_style( 'peaw-post-preview-card', PEAW_URI . 'public/css/peaw-original-layout.css' );
+		wp_enqueue_style( 'peaw_multiple_posts_style', PEAW_URI.'public/css/peaw-multiple-posts-style.css');
 								
 	}
 

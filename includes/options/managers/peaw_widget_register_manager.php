@@ -21,7 +21,7 @@ class Peaw_Widget_Register_Manager implements Peaw_Options_Base{
 	private static $instance;
 
 	/*Registered widget list*/
-	private static $widget_list;
+	public static $widget_list;
 
 	/* Options name of each widget list */
 	private static $widgets_options_name;

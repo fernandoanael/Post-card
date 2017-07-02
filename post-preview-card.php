@@ -10,7 +10,7 @@
  * Plugin Name: Post Preview Card
  * Plugin URI:  hhttps://github.com/fernandoanael/Post-card/tree/SettingsMenu
  * Description: This plugins adds 3 Post Preview Widgets in Card shape made to be used with Elementor
- * Version:     2.0.1
+ * Version:     2.0.3
  * Author:      Fernando Anael Cabral
  * Author URI:  https://github.com/fernandoanael
  * Text Domain: post-card

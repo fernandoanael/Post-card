@@ -4,7 +4,7 @@ Donate link: http://example.com/
 Tags: post, preview, card, elementor, widget for elementor, beaver, siteorigin, page builder
 Requires at least: 4.0.1
 Tested up to: 4.8.0
-Stable tag: 2.0.1
+Stable tag: 2.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,9 +65,6 @@ YOU MUST CHECK MANUALLY THE WIDGETS YOU WANT TO INSTALL IN: post-preview-card se
 
 == Frequently Asked Questions ==
 
-= I cannot see my changes in the elementor live mode =
-That's because Elementor is not rendering all styling files in the live mode and we can't change Elementor's code. But you should have no problem after saving the page in elementor and going to the real page.
-
 = How can I know the Post id? =
 This plugin adds the ID column in your "All Posts" section on the wordpress admin panel. You can deactivate this by going to the general settings page of the plugin.
 
@@ -86,9 +83,16 @@ in priority order:
 1. Bug fixes always come first 
 2. New Layouts
 3. A shortcode for this plugin
-4. Work towards universal compatibility with others page builders.
 
 == Screenshots ==
+
+1. After installing and activating the plugin make sure all the widgets were added, go to Post Preview Card > Widgets and if any widget widget you want is not checked, simply check and save.
+
+2. Using a page builder, open a page and click to edit with the page builder of your choice, I'll be using Elementor in the screenshoot. You will see the widgets installed in the bottom of the page builder widget list
+
+3. Choose the widget you want and then drag and drop it. After this you will see a form to edit the widget. Each widget have different options and more customizable options will be added in future versions so the screenshoot might be outdated
+
+4. That's it! This is the final result of a Multiple Posts widget showing only the first 3 posts of the blog. When the plus button is clicked more 3 posts will be loaded, without refreshing the entire page, until it displays the total number of posts specified.
 
 == Changelog ==
 
@@ -110,3 +114,6 @@ Now plugins is working and tested with:
 
 = 2.0.2 =
 Bug fix: Fixed the bug that was preventing Elementor to properly preview the layout of the Post Preview Card in the live editing mode.
+
+= 2.0.3 =
+Install change: now when user first install plugin, all widgets come installed as default.

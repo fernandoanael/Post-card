@@ -5,7 +5,7 @@
  * @package     Post Preview Card
  * @author      Fernando Cabral
  * @license     GPLv3
- * @version 	2.0.1
+ * @version 	2.0.3
  */
 class Peaw_Class{
 	/*
@@ -42,11 +42,13 @@ class Peaw_Class{
 		
 		/* Initialize widgets, layouts, and extra functionalities*/
 		add_action('widgets_init',array($this,'peaw_add_widgets'));
+		add_action( 'widgets_init', array($this,'peaw_install_widgets'));
 		add_action('widgets_init',array($this,'peaw_add_layouts'));
 		if(Peaw_General_Settings_Manager::peaw_get_settings_value('peaw_show_post_id') == 'true'){
 			add_filter('manage_posts_columns', array($this, 'peaw_add_post_id_to_column'));
 			add_action('manage_posts_custom_column', array($this, 'peaw_show_post_id'), 10, 2 );
 		}
+
 
 		/*Ajax_list  containing the url and the actions names*/
 		$args = [
@@ -108,7 +110,21 @@ class Peaw_Class{
 	}
 
 	/*
-	 *
+	 *	Install the widgets in the first install of the plugin
+	 */
+	public function peaw_install_widgets(){
+		$peaw_widget_list = Peaw_Widget_Register_Manager::$widget_list;
+
+		for($i=0 ; $i < count($peaw_widget_list) ; $i++){
+
+			if(get_option("peaw_activate_".$peaw_widget_list[$i]['option_name'],'none') === 'none'){
+				update_option("peaw_activate_".$peaw_widget_list[$i]['option_name'], "true" );
+			}
+
+		}
+	}
+	/*
+	 * add the registered layouts
 	 */
 	public static function peaw_add_layouts(){
 		$layouts_list = array(

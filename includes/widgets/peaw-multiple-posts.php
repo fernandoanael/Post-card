@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Post Preview Card
@@ -393,7 +394,7 @@ class PEAW_Multiple_Posts extends WP_Widget{
 		<input class="widefat" id="<?php echo  esc_attr( $this->get_field_id( 'read_more_text' )); ?>" name="<?php echo  esc_attr($this->get_field_name( 'read_more_text' )); ?>" type="text" value="<?php echo esc_attr($read_more_text); ?>">
 
 
-		<p>For every color use a Hex code like this: #fffffff . The '#' is mandatory. Or you can simply wright the color name like: red 
+		<p>For every color use a Hex code like this: #fffffff . The '#' is mandatory. Or you can simply wright the color name like: red <br>
 			<a href="http://htmlcolorcodes.com/color-picker/"> Hex Color Picker </a>
 		</p>
 		

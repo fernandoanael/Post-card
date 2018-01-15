@@ -1,5 +1,6 @@
 # Post-Preview-card
 Post Card Wordpress Plugin V 2.0.3
+https://wordpress.org/plugins/post-preview-card/
 
 ### Example
 Post Card -> https://ibb.co/gyjkL5

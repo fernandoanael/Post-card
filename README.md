@@ -1,4 +1,4 @@
-# Post-Preview-card
+# Post-Preview-card [Archived]
 Post Card Wordpress Plugin
 
 ### Example
